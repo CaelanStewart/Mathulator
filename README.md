@@ -1,6 +1,9 @@
 # Mathulator
 A handy expression calculator with support for variables and custom macros.
 
+![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.33.png?raw=true)
+![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.42.png?raw=true)
+
 ## Basic Usage
 We'll start off with the basics.
 
