@@ -48,7 +48,7 @@ const MathFunctions = {
 	rand: function(min, max) {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	},
-	randff: function() {
+	randf: function() {
 		return Math.random();
 	},
 	round: function(n, toMultiple) {
