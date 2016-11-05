@@ -104,42 +104,42 @@ You may define your own macros for common operations - macros persist through se
 ### Supported Math Functions
 Mathulator supports a variety of functions. Here is a good ol' simple list.
 
-- **`abs{x}`** - Returns the absolute value of a number.
-- **`acos{x}`** - Returns the arccosine of a number.
-- **`acosh{x}`** - Returns the hyperbolic arccosine of a number.
-- **`asin{x}`** - Returns the arcsine of a number.
-- **`asinh{x}`** - Returns the hyperbolic arcsine of a number.
-- **`atan{x}`** - Returns the arctangent of a number.
-- **`atanh{x}`** - Returns the hyperbolic arctangent of a number.
-- **`atan2{y,x}`** - Returns the arctangent of the quotient of its arguments.
-- **`cbrt{x}`** - Returns the cube root of a number.
-- **`ceil{x[,y]}`** - Returns the smallest integer greater than or equal to a number, or a multiple of `y`.
-- **`clz32{x}`** - Returns the number of leading zeroes of a 32-bit integer.
-- **`cos{x}`** - Returns the cosine of a number.
-- **`cosh{x}`** - Returns the hyperbolic cosine of a number.
+- **`abs(x)`** - Returns the absolute value of a number.
+- **`acos(x)`** - Returns the arccosine of a number.
+- **`acosh(x)`** - Returns the hyperbolic arccosine of a number.
+- **`asin(x)`** - Returns the arcsine of a number.
+- **`asinh(x)`** - Returns the hyperbolic arcsine of a number.
+- **`atan(x)`** - Returns the arctangent of a number.
+- **`atanh(x)`** - Returns the hyperbolic arctangent of a number.
+- **`atan2(y,x)`** - Returns the arctangent of the quotient of its arguments.
+- **`cbrt(x)`** - Returns the cube root of a number.
+- **`ceil(x[,y])`** - Returns the smallest integer greater than or equal to a number, or a multiple of `y`.
+- **`clz32(x)`** - Returns the number of leading zeroes of a 32-bit integer.
+- **`cos(x)`** - Returns the cosine of a number.
+- **`cosh(x)`** - Returns the hyperbolic cosine of a number.
 - **`deg(r)`** - Returns `r` radians in degrees.
-- **`exp{x}`** - Returns Ex, where x is the argument, and E is Euler's constant (2.718…), the base of the natural logarithm.
-- **`expm1{x}`** - Returns subtracting 1 from exp(x).
-- **`fact{x}`** - Returns the factorial of `x`.
-- **`fib{n}`** - Returns the `n`th Fibonacci number
-- **`floor{x[,y]}`** - Returns the largest integer less than or equal to a number, or a multiple of `y`.
-- **`fround{x}`** - Returns the nearest single precision float representation of a number.
-- **`hypot{x[,y[, ...]]}`** - Returns the square root of the sum of squares of its arguments.
-- **`imul{x,y}`** - Returns the result of a 32-bit integer multiplication.
-- **`log{x}`** - Returns the natural logarithm (loge, also ln) of a number.
-- **`log1p{x}`** - Returns the natural logarithm (loge, also ln) of 1 + x for a number x.
-- **`log10{x}`** - Returns the base 10 logarithm of a number.
-- **`log2{x}`** - Returns the base 2 logarithm of a number.
-- **`max{[x[,y[, ...]]}`** - Returns the largest of zero or more numbers.
-- **`min{[x[,y[, ...]]}`** - Returns the smallest of zero or more numbers.
-- **`pow{x,y}`** - Returns `x` raised to the power of `y`.
-- **`rad{d}`** - Returns `d` degrees in radians.
-- **`rand{min,max}`** - Returns a pseudo-random number between `min` and `max`.
-- **`randf{}`** - Returns a random float between 0 (inc.) and 1 (exc.).
-- **`round{x[,y]}`** - Returns the value of a number rounded to the nearest integer, or a multiple of `y`
-- **`sign{x}`** - Returns the sign of the x, indicating whether x is positive, negative or zero.
-- **`sin{x}`** - Returns the sine of a number.
-- **`sinh{x}`** - Returns the hyperbolic sine of a number.
-- **`sqrt{x}`** - Returns the positive square root of a number.
-- **`tan{x}`** - Returns the tangent of a number.
-- **`tanh{x}`** - Returns the hyperbolic tangent of a number.
+- **`exp(x)`** - Returns Ex, where x is the argument, and E is Euler's constant (2.718…), the base of the natural logarithm.
+- **`expm1(x)`** - Returns subtracting 1 from exp(x).
+- **`fact(x)`** - Returns the factorial of `x`.
+- **`fib(n)`** - Returns the `n`th Fibonacci number
+- **`floor(x[,y])`** - Returns the largest integer less than or equal to a number, or a multiple of `y`.
+- **`fround(x)`** - Returns the nearest single precision float representation of a number.
+- **`hypot(x[,y[, ...]])`** - Returns the square root of the sum of squares of its arguments.
+- **`imul(x,y)`** - Returns the result of a 32-bit integer multiplication.
+- **`log(x)`** - Returns the natural logarithm (loge, also ln) of a number.
+- **`log1p(x)`** - Returns the natural logarithm (loge, also ln) of 1 + x for a number x.
+- **`log10(x)`** - Returns the base 10 logarithm of a number.
+- **`log2(x)`** - Returns the base 2 logarithm of a number.
+- **`max([x[,y[, ...]])`** - Returns the largest of zero or more numbers.
+- **`min([x[,y[, ...]])`** - Returns the smallest of zero or more numbers.
+- **`pow(x,y)`** - Returns `x` raised to the power of `y`.
+- **`rad(d)`** - Returns `d` degrees in radians.
+- **`rand(min,max)`** - Returns a pseudo-random number between `min` and `max`.
+- **`randf()`** - Returns a random float between 0 (inc.) and 1 (exc.).
+- **`round(x[,y])`** - Returns the value of a number rounded to the nearest integer, or a multiple of `y`
+- **`sign(x)`** - Returns the sign of the x, indicating whether x is positive, negative or zero.
+- **`sin(x)`** - Returns the sine of a number.
+- **`sinh(x)`** - Returns the hyperbolic sine of a number.
+- **`sqrt(x)`** - Returns the positive square root of a number.
+- **`tan(x)`** - Returns the tangent of a number.
+- **`tanh(x)`** - Returns the hyperbolic tangent of a number.
