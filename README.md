@@ -4,6 +4,46 @@ A handy expression calculator with support for variables and custom macros.
 ![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.33.png?raw=true)
 ![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.42.png?raw=true)
 
+## Install (cli)
+
+### Step 1: Install Node
+See: https://nodejs.org/en/download/
+
+### Step 2: Clone
+Open your favourite command line application.
+```
+> cd ~
+> git clone https://github.com/CaelanStewart/Mathulator.git
+```
+
+### Step 3: Run
+Again, in your favourite command line application.
+```
+> cd ~/Mathulator
+> npm start
+```
+
+## Install (executable)
+Follow the instructions for the cli install, then continue here.
+
+### Step 1: Install `electron-packager`
+Open your favourite command line application.
+```
+> npm install -g electron-packager
+```
+*Note: you may have to use `sudo` if you get a permissions error.*
+
+### Step 2: Package Mathulator
+Again, in your favourite command line application.
+```
+> electron-packager ~/Mathulator --platform=darwin --arch=x64
+```
+*Note: run `electron-packager --help` for more info on available arguments.*
+
+### Step 3: Run
+`electron-packager` will tell you where it saved the exectutable in the command-line output. Navigate to it, and open it like any other application.
+
+
 ## Basic Usage
 We'll start off with the basics.
 
