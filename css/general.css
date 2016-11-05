@@ -1,0 +1,178 @@
+body, html {
+	padding: 0;
+	margin: 0;
+	font-family: 'Jaldi', sans-serif;
+}
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	outline: none;
+}
+
+#background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	height: 100%;
+	width: 100%;
+}
+
+@-webkit-keyframes HUE-ROTATE-ANIMATION {
+	0%   {
+		-webkit-filter: hue-rotate(0deg);
+		-moz-filter: hue-rotate(0deg);
+		filter: hue-rotate(0deg);
+	}
+	100% {
+		-webkit-filter: hue-rotate(360deg);
+		-moz-filter: hue-rotate(360deg);
+		filter: hue-rotate(360deg);
+	}
+}
+@-moz-keyframes HUE-ROTATE-ANIMATION {
+	0%   {
+		-webkit-filter: hue-rotate(0deg);
+		-moz-filter: hue-rotate(0deg);
+		filter: hue-rotate(0deg);
+	}
+	100% {
+		-webkit-filter: hue-rotate(360deg);
+		-moz-filter: hue-rotate(360deg);
+		filter: hue-rotate(360deg);
+	}
+}
+@-o-keyframes HUE-ROTATE-ANIMATION {
+	0%   {
+		-webkit-filter: hue-rotate(0deg);
+		-moz-filter: hue-rotate(0deg);
+		filter: hue-rotate(0deg);
+	}
+	100% {
+		-webkit-filter: hue-rotate(360deg);
+		-moz-filter: hue-rotate(360deg);
+		filter: hue-rotate(360deg);
+	}
+}
+@keyframes HUE-ROTATE-ANIMATION {
+	0%   {
+		-webkit-filter: hue-rotate(0deg);
+		-moz-filter: hue-rotate(0deg);
+		filter: hue-rotate(0deg);
+	}
+	100% {
+		-webkit-filter: hue-rotate(360deg);
+		-moz-filter: hue-rotate(360deg);
+		filter: hue-rotate(360deg);
+	}
+}
+
+body[data-template="home"] #background img {
+	-webkit-animation: HUE-ROTATE-ANIMATION 5s infinite; /* Safari 4+ */
+	-moz-animation:    HUE-ROTATE-ANIMATION 5s infinite; /* Fx 5+ */
+	-o-animation:      HUE-ROTATE-ANIMATION 5s infinite; /* Opera 12+ */
+	animation:         HUE-ROTATE-ANIMATION 5s infinite; /* IE 10+, Fx 29+ */
+
+	-webkit-animation-timing-function: linear;
+	-moz-animation-timing-function: linear;
+	-o-animation-timing-function: linear;
+	animation-timing-function: linear;
+}
+
+#wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	padding-top: 50px;
+}
+
+#header {
+	background-color: #555555;
+	border-bottom: 2px solid #444444;
+	margin: 0;
+	padding: 10px;
+	position: fixed;
+	height: 50px;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 0;
+}
+
+#header:after {
+	clear: both;
+	content: '';
+	display: block;
+}
+
+#header .logo {
+	color: #FFFFFF;
+	font-family: 'Arvo', serif;
+	font-size: 30px;
+	text-transform: uppercase;
+	line-height: 30px;
+	letter-spacing: 2px;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+#header nav {
+	float: right;
+}
+
+#header nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#header nav ul li {
+	display: block;
+	float: left;
+}
+
+#header nav ul li a {
+	display: block;
+	font-size: 20px;
+	color: #FFFFFF;
+	height: 30px;
+	line-height: 30px;
+	text-decoration: none;
+	padding: 0 10px;
+}
+
+#header nav ul li a:hover {
+	color: #B1E615;
+}
+
+.tooltip {
+	word-break: break-all;
+	word-wrap: break-word;
+	white-space: normal;
+	line-height: 20px;
+	background-color: #333333 !important;
+}
+
+#welcome {
+	width: 100%;
+	text-align: center;
+	padding: 50px;
+}
+
+#welcome h1 {
+	color: white;
+	font-family: 'Arvo';
+	font-size: 60px;
+	letter-spacing: 2px;
+	-webkit-mix-blend-mode: multiply;
+	  -moz-mix-blend-mode: multiply;
+	  -o-mix-blend-mode: multiply;
+	  -ms-mix-blend-mode: multiply;
+	   mix-blend-mode:multiply;
+}

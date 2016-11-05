@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Mathulator</title>
+
+		<link rel="stylesheet" href="css/fonts.css" />
+		<link rel="stylesheet" href="css/general.css" />
+		<link rel="stylesheet" href="css/mathulator.css" />
+		<link rel="stylesheet" href="3rd-party/tooltips/tooltips.css" />
+		<link rel="stylesheet" href="3rd-party/remodal/remodal.css" />
+		<link rel="stylesheet" href="3rd-party/remodal/remodal-default-theme.css" />
+		<link rel="stylesheet" href="3rd-party/font-awesome/css/font-awesome.min.css" />
+	</head>
+	<body data-template="mathulator">
+		<div id="background">
+			<img class="object-fit" width="2844" height="1600" src="images/background.jpg" alt="" />
+		</div>
+		<div id="wrapper" class="remodal-bg">
+		</div>
+
+		<div class="mathulator" id="mathulator">
+			<div class="mathulator-inner">
+				<div class="display">
+					<input type="text" value="" placeholder="sin(90*pi/180)" id="display-input" />
+				</div>
+				<div class="buttons no-select">
+					<div class="row">
+						<button class="button function" type="button" data-action="inputCharacter" data-value="pi">pi</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="sin ">sin</button>
+						<button class="button" type="button" data-action="clearScreen" class="button double">C</button>
+						<button class="button" type="button" data-action="backspace">&lt;</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="^">^</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="/">/</button>
+					</div>
+					<div class="row">
+						<button class="button function" type="button" data-action="inputCharacter" data-value="floor ">floor</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="cos ">cos</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="7">7</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="8">8</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="9">9</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="*">*</button>
+					</div>
+					<div class="row">
+						<button class="button function" type="button" data-action="inputCharacter" data-value="ceil ">ceil</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="tan ">tan</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="4">4</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="5">5</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="6">6</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="-">-</button>
+					</div>
+					<div class="row">
+						<button class="button function" type="button" data-action="inputCharacter" data-value="round ">round</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="sqrt ">sqrt</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="1">1</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="2">2</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="3">3</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="+">+</button>
+					</div>
+					<div class="row">
+						<button class="button function" type="button" data-action="inputCharacter" data-value="exp ">exp</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="fact ">fact</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value="0">0</button>
+						<button class="button" type="button" data-action="inputCharacter" data-value=".">.</button>
+						<button class="button double" type="button" data-action="evaluate">=</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="mathulator-sidebar" class="no-select">
+			<div class="toolbar">
+				<button type="button" class="close-history button" data-tooltip="Close sidebar" data-tooltip-place="left"><i class="fa fa-chevron-right"></i></button>
+				<button type="button" data-remodal-target="available-math-functions" class="button" data-tooltip="Help" data-tooltip-place="left"><i class="fa fa-question-circle"></i></button>
+				<button type="button" class="button clear-history" data-tooltip="Clear history" data-tooltip-place="left"><i class="fa fa-history"></i></button>
+				<button type="button" class="button clear-variables" data-tooltip="Clear variables" data-tooltip-place="left"><i class="fa fa-close"></i></button>
+			</div>
+			<div class="tabs">
+				<div class="tab-bar">
+					<div class="tab active" data-name="history">History</div>
+					<div class="tab" data-name="variables">Variables</div>
+					<div class="tab" data-name="macros">Macros</div>
+				</div>
+				<div class="tab-panes">
+					<div class="tab-pane active" data-name="history">
+						<div class="history-entries entries">
+							<span></span>
+						</div>
+					</div>
+					<div class="tab-pane" data-name="variables">
+						<div class="variable-list entries">
+							<span></span>
+						</div>
+					</div>
+					<div class="tab-pane" data-name="macros">
+						<div class="macro-list entries">
+							<span></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="remodal" data-remodal-id="available-math-functions">
+			<button data-remodal-action="close" class="remodal-close"></button>
+			<h2 class="no-select">Available Math Functions</h2>
+			<pre>abs, acos, acosh, asin, asinh, atan, atanh, atan2, cbrt, ceil, clz32, cos, exp, expm1, floor, fround, hypot, imul, log, log1p, log10, log2, max, min, pow, round, sign, sin, sinh, sqrt, tan, tanh, trunc, rad, fib, fact, rand</pre>
+			<br />
+			<h2 class="no-select">Usage Examples</h2>
+			<pre class="big">
+				<b>min(5, 8, 240, 3e-6)</b><span class="no-select"><br />
+				</span><span class="no-select">= </span>0.000003<span class="no-select"><br /><br />
+
+				</span><b>width=rand(50, 500)</b><span class="no-select"><br />
+				</span><span class="no-select">≈ </span>247<span class="no-select"><br /><br />
+
+				</span><b>height=50</b><span class="no-select"><br />
+				</span><span class="no-select">= </span>50<span class="no-select"><br /><br />
+
+				</span><b>area{w,h} = w*h</b><span class="no-select"><br />
+				<small>Create macros for later usage<br /><br />
+
+				</span><b>area(width,height)</b><span class="no-select"><br />
+				</span><span class="no-select">≈ </span>12350
+			</pre>
+		</div>
+
+		<script type="text/javascript">window.$ = window.jQuery = require('./3rd-party/jquery-3.1.0.min.js');</script>
+		<script type="text/javascript" src="3rd-party/remodal/remodal.min.js"></script>
+		<script type="text/javascript" src="3rd-party/tooltips/tooltips.min.js"></script>
+		<script type="text/javascript" src="js/expression-parser.js"></script>
+		<script type="text/javascript" src="js/mathulator.js"></script>
+		<script type="text/javascript" src="js/tabs.js"></script>
+	</body>
+</html>
