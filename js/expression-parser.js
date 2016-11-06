@@ -35,7 +35,7 @@ const MathFunctions = {
 		return n.times(180).dividedBy(Math.PI);
 	},
 	rand: function(min, max) {
-		return new Decimal(Math.random()).times(max.minus(min).add(1)).add(min);
+		return new Decimal(Math.random()).times(max.minus(min).add(1)).add(min).floor();
 		//return Math.floor(Math.random() * (max - min + 1) + min);
 	},
 	randf: function() {
