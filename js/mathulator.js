@@ -10,7 +10,8 @@ var Mathulator = (function(window, document) {
 		variableEntries = [ ],
 		variables = { },
 		macroEntries = [ ],
-		macros = { };
+		macros = { },
+		Decimal = require('decimal.js');
 
 	function clearScreen() {
 		elements.input.value = '';
@@ -35,7 +36,7 @@ var Mathulator = (function(window, document) {
 	function onGetAnswerMouseEvent(event) {
 		if(event.type === 'mouseenter') {
 			tooltip
-				.content(event.currentTarget.cachedAnswer)
+				.content(event.currentTarget.cachedAnswer.toString())
 				.place('left')
 				.show(event.currentTarget);
 		} else {
@@ -46,7 +47,7 @@ var Mathulator = (function(window, document) {
 	function onVariableButtonMouseEvent(event) {
 		if(event.type === 'mouseenter') {
 			tooltip
-				.content(event.currentTarget.cachedValue)
+				.content(event.currentTarget.cachedValue.toString())
 				.place('left')
 				.show(event.currentTarget);
 		} else {
@@ -254,9 +255,9 @@ var Mathulator = (function(window, document) {
 	function evaluate() {
 		var expression = elements.input.value,
 			result;
-
+result = ep.parse(expression);
 		try {
-			result = ep.parse(expression);
+			//result = ep.parse(expression);
 			elements.input.value = result;
 			addHistoryEntry(expression, result);
 			addToLocalStorage(expression, result);
@@ -315,7 +316,13 @@ var Mathulator = (function(window, document) {
 		history = JSON.parse(historyJson);
 
 		history.forEach(function(item) {
-			addHistoryEntry.apply(null, item);
+			let [expression, value] = item;
+			
+			if(typeof value === 'object' && value.hasOwnProperty('mathjs')) {
+				value = value.value;
+			}
+			
+			addHistoryEntry(expression, value);
 		});
 
 		var variablesJson = localStorage.getItem('variables'),
@@ -331,8 +338,8 @@ var Mathulator = (function(window, document) {
 
 		for(name in variableObj) {
 			if(variableObj.hasOwnProperty(name)) {
-				addVariableEntry(name, variableObj[name]);
 				ep.setVariable(name, variableObj[name], false);
+				addVariableEntry(name, ep.getVariable(name));
 			}
 		}
 

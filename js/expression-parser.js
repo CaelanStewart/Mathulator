@@ -1,7 +1,8 @@
 const NUMERIC_CHARSET = '01234567890.',
 	  ALPHA_CHARSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_',
 	  OPERATOR_CHARSET = '+-/*^%',
-	  WHITE_SPACE_REGEX = /\s/;
+	  WHITE_SPACE_REGEX = /\s/,
+	  Decimal = require('decimal.js');
 
 const MathFunctions = {
 	fact: function (value) {
@@ -14,63 +15,56 @@ const MathFunctions = {
 			returnValue = value;
 
 		for(multiplier = value - 1; multiplier > 0; --multiplier) {
-			returnValue *= multiplier;
+			returnValue = returnValue.times(multiplier);
 		}
 
 		return returnValue;
-	},
-	fib: function(n) {
-		if(arguments.length !== 1) {
-			throw new Error("function 'fib' requires exactly one argument");
-		}
-
-		if (n < 2) {
-			return n;
-		}
-		else {
-			return MathFunctions.fib(n - 1) + MathFunctions.fib(n - 2);
-		}
 	},
 	rad: function(n) {
 		if(arguments.length !== 1) {
 			throw new Error("function 'rad' requires exactly one argument");
 		}
 
-		return n * Math.PI / 180;
+		return n.times(Math.PI).dividedBy(180);
 	},
 	deg: function(n) {
 		if(arguments.length !== 1) {
 			throw new Error("function 'rad' requires exactly one argument");
 		}
 
-		return n * 180 / Math.PI;
+		return n.times(180).dividedBy(Math.PI);
 	},
 	rand: function(min, max) {
-		return Math.floor(Math.random() * (max - min + 1) + min);
+		return new Decimal(Math.random()).times(max.minus(min).add(1)).add(min);
+		//return Math.floor(Math.random() * (max - min + 1) + min);
 	},
 	randf: function() {
-		return Math.random();
+		return new Decimal(Math.random());
 	},
 	round: function(n, toMultiple) {
-		if(typeof toMultiple === 'number') {
-			return Math.round(n / toMultiple) * toMultiple;
+		console.log(toMultiple.toFixed());
+		if(typeof toMultiple !== 'undefined') {
+			return n.dividedBy(toMultiple).round().times(toMultiple);
 		} else {
-			return Math.round(n);
+			return n.round();
 		}
 	},
 	ceil: function(n, toMultiple) {
-		if(typeof toMultiple === 'number') {
-			return Math.ceil(n / toMultiple) * toMultiple;
+		if(typeof toMultiple !== 'undefined') {
+			return n.dividedBy(toMultiple).ceil().times(toMultiple);
 		} else {
-			return Math.ceil(n);
+			return n.ceil();
 		}
 	},
 	floor: function(n, toMultiple) {
-		if(typeof toMultiple === 'number') {
-			return Math.floor(n / toMultiple) * toMultiple;
+		if(typeof toMultiple !== 'undefined') {
+			return n.dividedBy(toMultiple).floor().times(toMultiple);
 		} else {
-			return Math.floor(n);
+			return n.floor();
 		}
+	},
+	sign: function(n) {
+		return new Decimal(n.s);
 	}
 },
 allowedMathFunctions = [
@@ -83,27 +77,21 @@ allowedMathFunctions = [
 	'atanh',
 	'atan2',
 	'cbrt',
-	'clz32',
 	'cos',
 	'exp',
-	'expm1',
-	'fround',
 	'hypot',
-	'imul',
+	'ln',
 	'log',
-	'log1p',
 	'log10',
 	'log2',
 	'max',
 	'min',
 	'pow',
-	'sign',
 	'sin',
 	'sinh',
 	'sqrt',
 	'tan',
-	'tanh',
-	'trunc'
+	'tanh'
 ];
 
 const Helpers = {
@@ -116,52 +104,43 @@ const Helpers = {
 };
 
 const OperatorFunctions = {
-	'+': (left, right) => left + right,
-	'-': (left, right) => left - right,
-	'/': (left, right) => left / right,
-	'*': (left, right) => left * right,
-	'%': (left, right) => left % right,
-	'^': (left, right) => Math.pow(left, right)
+	'+': (left, right) => left.add(right),
+	'-': (left, right) => left.minus(right),
+	'/': (left, right) => left.dividedBy(right),
+	'*': (left, right) => left.times(right),
+	'%': (left, right) => left.modulo(right),
+	'^': (left, right) => left.pow(right)
 };
 
-/**
- * JavaScript deep clone function from StackOverflow
- */
-function clone(obj){
-	if(typeof(obj) == 'function')//it's a simple function
-		return obj;
-	//of it's not an object (but could be an array...even if in javascript arrays are objects)
-	if(typeof(obj) !=  'object' || obj.constructor.toString().indexOf('Array')!=-1)
-		if(JSON != undefined)//if we have the JSON obj
-			try{
-				return JSON.parse(JSON.stringify(obj));
-			}catch(err){
-				return JSON.parse('"'+JSON.stringify(obj)+'"');
+function clone(obj) {
+	if(typeof obj === 'object') {
+		if(obj.constructor.name === 'Decimal') {
+			return obj;	
+		} else if(obj.constructor.name === 'Array' && typeof obj.length === 'number') {
+			var len = obj.length,
+				cln = [ ],
+				iter;
+			
+			for(iter = 0; iter < len; ++iter) {
+				cln.push(clone(obj[iter]));
 			}
-		else
-			try{
-				return eval(uneval(obj));
-			}catch(err){
-				return eval('"'+uneval(obj)+'"');
+			
+			return cln;
+		} else {
+			let key,
+				cln = { };
+			
+			for(key in obj) {
+				if(obj.hasOwnProperty(key)) {
+					cln[key] = clone(obj[key]);	
+				}
 			}
-	// I used to rely on jQuery for this, but the "extend" function returns
-	//an object similar to the one cloned,
-	//but that was not an instance (instanceof) of the cloned class
-	/*
-	if(jQuery != undefined)//if we use the jQuery plugin
-		return jQuery.extend(true,{},obj);
-	else//we recursivley clone the object
-	*/
-	return (function _clone(obj){
-		if(obj == null || typeof(obj) != 'object')
-			return obj;
-		function temp () {};
-		temp.prototype = obj;
-		var F = new temp;
-		for(var key in obj)
-			F[key] = clone(obj[key]);
-		return F;
-	})(obj);
+			
+			return cln;
+		}
+	}
+	
+	return obj;
 }
 
 function getListPrimitiveArray(itms) {
@@ -184,11 +163,11 @@ function ExpressionParser(variables, macros) {
 		this.variables = variables
 	} else {
 		this.variables = {
-			pi: Math.PI,
-			PI: Math.PI,
-			e: Math.E,
-			E: Math.E,
-			randf: () => Math.random()
+			pi: new Decimal(Math.PI),
+			PI: new Decimal(Math.PI),
+			e: new Decimal(Math.E),
+			E: new Decimal(Math.E),
+			randf: () => new Decimal(Math.random())
 		};
 	}
 
@@ -249,6 +228,17 @@ ExpressionParser.prototype.setVariable = function(name, value, triggerEvent) {
 	if(this.readOnlyVariables.indexOf(name) !== -1) {
 		throw new Error('Cannot set read only variable "' + name + '"');
 	}
+	
+	if(typeof value === 'string' && value.trim().indexOf('{') === 0) {
+		let obj = JSON.parse(value);
+		
+		if(typeof obj === 'object' && 'mathjs' in obj) {
+			value = new Decimal(obj.value);
+		} else {
+			console.log('Invalid number object', value);
+			return;
+		}
+	}
 
 	if(triggerEvent !== false) {
 		this.triggerVariableSetEvent(name, value);
@@ -265,7 +255,26 @@ ExpressionParser.prototype.getVariable = function(name) {
 		let variable = this.variables[name];
 
 		if(typeof variable === 'function') {
-			return variable();
+			variable = variable();
+		}
+		
+		if(typeof variable === 'number') {
+			variable = new Decimal(variable);	
+		}
+	
+		if(typeof variable === 'string' && variable.trim().indexOf('{') === 0) {
+			let obj = JSON.parse(variable);
+			
+			if(typeof obj === 'object' && 'mathjs' in obj) {
+				variable = new Decimal(obj.value);
+			} else {
+				console.log('Invalid number object', variable);
+				return;
+			}
+		}
+		
+		if(typeof variable === 'object' && variable.hasOwnProperty('mathjs')) {
+			variable = new Decimal(variable.value);	
 		}
 
 		return variable;
@@ -648,7 +657,7 @@ ExpressionParser.prototype.parseBrackets = function(tkns) {
 					let leftSide = tokens.slice(0, bracketIndex),
 						rightSide = tokens.slice(iter + 1),
 						parsed;
-
+						
 					parsed = this.parseTokens(clone(tokens.slice(bracketIndex + 1, iter)));
 
 					tokens = leftSide.concat(parsed, rightSide);
@@ -697,7 +706,7 @@ ExpressionParser.prototype.parseNegatives = function(tkns) {
 			tokens[iter + 1][0] === 'number'        // And it's a number
 		) {
 			// Make the next number a negative
-			tokens[iter + 1][1] = tokens[iter][1] === '-' ? -tokens[iter + 1][1] : tokens[iter + 1][1];
+			tokens[iter + 1][1] = tokens[iter][1] === '-' ? tokens[iter + 1][1].negated() : tokens[iter + 1][1];
 			// Remove this token from stack
 			tokens.splice(iter, 1);
 			--tokensLength;
@@ -738,7 +747,7 @@ ExpressionParser.prototype.parseVariables = function(tkns) {
 						tokens[iter - 1][0] === 'number'
 					) {
 						tokens[iter][0] = 'number';
-						tokens[iter][1] = this.getVariable(tokens[iter][1]) * tokens[iter - 1][1];
+						tokens[iter][1] = this.getVariable(tokens[iter][1]).times(tokens[iter - 1][1]);
 
 						let leftSide = tokens.slice(0, iter - 1),
 							rightSide = tokens.slice(iter);
@@ -786,40 +795,36 @@ ExpressionParser.prototype.parseFunctions = function(tkns) {
 			) {
 				let mathFunction,
 					context,
-					macro;
+					macro,
+					primitives;
+				
+
+				if(tokens[iter + 1][0] !== 'list') {
+					tokens[iter + 1] = [
+						'list',
+						[
+							tokens[iter + 1]
+						]
+					];	
+				}
+				
+				primitives = getListPrimitiveArray(tokens[iter + 1][1]);
 
 				if(allowedMathFunctions.indexOf(tokens[iter][1]) !== -1) {
-					mathFunction = Math[tokens[iter][1]];
-					context = Math;
-					macro = false;
+					tokens[iter + 1] = [
+						'number',
+						Decimal[tokens[iter][1]].apply(Decimal, primitives)
+					];
 				} else if(tokens[iter][1] in MathFunctions) {
-					mathFunction = MathFunctions[tokens[iter][1]];
-					context = mathFunction;
-					macro = false;
+					tokens[iter + 1] = [
+						'number',
+						MathFunctions[tokens[iter][1]].apply(MathFunctions, primitives)
+					];
 				} else if(tokens[iter][1] in this.macros) {
-					macro = true;
-				}
-
-				if(tokens[iter + 1][0] === 'list') {
-					let primitives = getListPrimitiveArray(tokens[iter + 1][1]);
-
-					if(macro) {
-						tokens[iter + 1] = [
-							'number',
-							this.runMacro(tokens[iter][1], primitives)
-						];
-					} else {
-						tokens[iter + 1] = [
-							'number',
-							mathFunction.apply(context, primitives)
-						];
-					}
-				} else {
-					if(macro) {
-						tokens[iter + 1][1] = this.runMacro(tokens[iter][1], [tokens[iter + 1][1]]);
-					} else {
-						tokens[iter + 1][1] = mathFunction.call(context, tokens[iter + 1][1]);
-					}
+					tokens[iter + 1] = [
+						'number',
+						this.runMacro(tokens[iter][1], primitives)
+					];
 				}
 
 				// Remove this token from stack
@@ -839,7 +844,7 @@ ExpressionParser.prototype.parseOperations = function(tkns) {
 	'use strict';
 
 	// Order of operations
-	var operators = ['^', '/', '*', '+', '-'],
+	var operators = ['^', '*', '/', '+', '-'],
 		tokens = tkns,
 		self = this;
 
@@ -938,7 +943,7 @@ ExpressionParser.prototype.tokenize = function(expr) {
 					continue;
 				}
 
-				tokens.push(['number', Number(buffer)]);
+				tokens.push(['number', new Decimal(buffer)]);
 
 				flag_numeric = false;
 				flag_sciNotation = false;
