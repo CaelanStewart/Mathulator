@@ -20,6 +20,51 @@ function createWindow () {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+
+	const template = [
+		{
+			label: 'Mathulator',
+			submenu: [
+				{
+					role: 'quit'
+				}
+			]
+		},
+		{
+			label: 'Edit',
+			submenu: [
+				{
+					role: 'undo'
+				},
+				{
+					role: 'redo'
+				},
+				{
+					type: 'separator'
+				},
+				{
+					role: 'cut'
+				},
+				{
+					role: 'copy'
+				},
+				{
+					role: 'paste'
+				},
+				{
+					role: 'pasteandmatchstyle'
+				},
+				{
+					role: 'delete'
+				},
+				{
+					role: 'selectall'
+				}
+			]
+		}
+	];
+
+	Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished
@@ -43,49 +88,3 @@ app.on('activate', function () {
 		createWindow();
 	}
 })
-/*
-const template = [
-	{
-		label: 'Mathulator',
-		submenu: [
-			{
-				role: 'quit'
-			}
-		]
-	},
-	{
-		label: 'Edit',
-		submenu: [
-			{
-				role: 'undo'
-			},
-			{
-				role: 'redo'
-			},
-			{
-				type: 'separator'
-			},
-			{
-				role: 'cut'
-			},
-			{
-				role: 'copy'
-			},
-			{
-				role: 'paste'
-			},
-			{
-				role: 'pasteandmatchstyle'
-			},
-			{
-				role: 'delete'
-			},
-			{
-				role: 'selectall'
-			}
-		]
-	}
-];
-
-Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-*/
