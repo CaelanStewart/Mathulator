@@ -192,8 +192,6 @@ function ExpressionParser(variables, macros) {
 	    };
 	}
 
-	this.tempVars = { };
-
 	if(Object.prototype.toString.call(macros) === '[object Object]') {
 		this.macros = macros;
 	} else {
@@ -264,13 +262,7 @@ ExpressionParser.prototype.getVariable = function(name) {
     'use strict';
 
     if(this.isVariable(name)) {
-		let variable;
-
-		if(this.tempVars.hasOwnProperty(name)) {
-			variable = this.tempVars[name];
-		} else {
-			variable = this.variables[name];
-		}
+		let variable = this.variables[name];
 
         if(typeof variable === 'function') {
             return variable();
@@ -286,7 +278,7 @@ ExpressionParser.prototype.getVariable = function(name) {
 ExpressionParser.prototype.isVariable = function(name) {
     'use strict';
 
-    return this.tempVars.hasOwnProperty(name) || this.variables.hasOwnProperty(name);
+    return this.variables.hasOwnProperty(name);
 };
 
 ExpressionParser.prototype.setMacro = function(name, argList, exprTkns, triggerEvent) {
@@ -555,7 +547,7 @@ ExpressionParser.prototype.parseLists = function(tkns) {
 					let argTokens = tokens.slice(listIndex + 1, iter);
 
 					if(argTokens.length) {
-						argTokens = this.parseTokens(argTokens);
+						argTokens = this.parseTokens(clone(argTokens));
 
 						items.push(argTokens[0]);
 					}
@@ -616,7 +608,7 @@ ExpressionParser.prototype.parseLists = function(tkns) {
 				listIndex = iter;
 
 				if(argTokens.length) {
-					argTokens = this.parseTokens(argTokens);
+					argTokens = this.parseTokens(clone(argTokens));
 				}
 
 				items.push(argTokens[0]);
@@ -657,7 +649,7 @@ ExpressionParser.prototype.parseBrackets = function(tkns) {
 						rightSide = tokens.slice(iter + 1),
 						parsed;
 
-					parsed = this.parseTokens(tokens.slice(bracketIndex + 1, iter));
+					parsed = this.parseTokens(clone(tokens.slice(bracketIndex + 1, iter)));
 
 					tokens = leftSide.concat(parsed, rightSide);
 					iter += tokens.length - tokensLength;
