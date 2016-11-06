@@ -172,6 +172,10 @@ var Mathulator = (function(window, document) {
 		}
 
 		variableObj = JSON.parse(variablesJson);
+		
+		if(Object.prototype.toString.call(variableObj) !== '[object Object]') {
+			variableObj = { };	
+		}
 
 		variableObj[name] = value;
 
@@ -189,6 +193,10 @@ var Mathulator = (function(window, document) {
 		}
 
 		macrosObj = JSON.parse(macrosJson);
+		
+		if(Object.prototype.toString.call(macrosObj) !== '[object Object]') {
+			macrosObj = { };	
+		}
 
 		macrosObj[name] = {
 			argList: argList,
@@ -224,13 +232,23 @@ var Mathulator = (function(window, document) {
 	}
 
 	function clearVariables() {
-		localStorage.setItem('variables', '[ ]');
+		localStorage.setItem('variables', '{ }');
 
 		variableEntries.forEach(function(entry) {
 			entry.parentNode.removeChild(entry);
 		});
 
 		variableEntries = [ ];
+	}
+
+	function clearMacros() {
+		localStorage.setItem('macros', '{ }');
+
+		macroEntries.forEach(function(entry) {
+			entry.parentNode.removeChild(entry);
+		});
+
+		macroEntries = [ ];
 	}
 
 	function evaluate() {
@@ -364,6 +382,7 @@ var Mathulator = (function(window, document) {
 		elements.macroEntryContainer = elements.sidebar.querySelector('.macro-list');
 		elements.clearHistory = elements.sidebar.querySelector('.clear-history');
 		elements.clearVariables = elements.sidebar.querySelector('.clear-variables');
+		elements.clearMacros = elements.sidebar.querySelector('.clear-macros');
 		elements.closeSidebar = elements.sidebar.querySelector('.close-history');
 	}
 
@@ -373,6 +392,7 @@ var Mathulator = (function(window, document) {
 		});
 
 		elements.clearHistory.addEventListener('click', clearHistory);
+		elements.clearMacros.addEventListener('click', clearMacros);
 		elements.closeSidebar.addEventListener('click', onCloseSidebarClick);
 		elements.clearVariables.addEventListener('click', clearVariables);
 
