@@ -4,7 +4,6 @@ var Mathulator = (function(window, document) {
 	var elements,
 		ep = new ExpressionParser(),
 		expressionHistory = [],
-		currentHistoryIndex = 0,
 		historyEntries = [ ],
 		tooltip = new Tooltips.Tooltip('', {auto: true}),
 		tooltips = new Tooltips(document.body),
@@ -19,33 +18,6 @@ var Mathulator = (function(window, document) {
 
 	function backspace() {
 		elements.input.value = elements.input.value.substr(0, elements.input.value.length - 1);
-	}
-
-	function previousExpression() {
-		if(currentHistoryIndex - 1 < 0) {
-			return;
-		}
-
-		console.log(currentHistoryIndex, expressionHistory.length);
-
-		if(expressionHistory.length === currentHistoryIndex) {
-			expressionHistory.push(elements.input.value);
-		}
-
-		--currentHistoryIndex;
-		console.log(expressionHistory, currentHistoryIndex);
-		elements.input.value = expressionHistory[currentHistoryIndex];
-	}
-
-	function nextExpression() {
-		if(currentHistoryIndex + 1 >= expressionHistory.length) {
-			var len = expressionHistory.push('');
-			currentHistoryIndex = len - 1;
-		} else {
-			++currentHistoryIndex;
-		}
-
-		elements.input.value = expressionHistory[currentHistoryIndex]
 	}
 
 	function onHistoryEntryClick(event) {
@@ -312,16 +284,6 @@ var Mathulator = (function(window, document) {
 		// Enter key was pressed
 		if(event.keyCode === 13) {
 			evaluate();
-		}
-
-		// Up key was pressed
-		if(event.keyCode === 38) {
-			//previousExpression();
-		}
-
-		// Down key was pressed
-		if(event.keyCode === 40) {
-			//nextExpression();
 		}
 	}
 
