@@ -1,5 +1,5 @@
 # Mathulator
-A handy expression calculator with support for variables and custom macros.
+A handy expression calculator with support for variables, custom macros and arbitrary precision numbers.
 
 ![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.33.png?raw=true)
 ![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.42.png?raw=true)
@@ -114,20 +114,15 @@ Mathulator supports a variety of functions. Here is a good ol' simple list.
 - **`atan2(y,x)`** - Returns the arctangent of the quotient of its arguments.
 - **`cbrt(x)`** - Returns the cube root of a number.
 - **`ceil(x[,y])`** - Returns the smallest integer greater than or equal to a number, or a multiple of `y`.
-- **`clz32(x)`** - Returns the number of leading zeroes of a 32-bit integer.
 - **`cos(x)`** - Returns the cosine of a number.
 - **`cosh(x)`** - Returns the hyperbolic cosine of a number.
 - **`deg(r)`** - Returns `r` radians in degrees.
 - **`exp(x)`** - Returns Ex, where x is the argument, and E is Euler's constant (2.718…), the base of the natural logarithm.
-- **`expm1(x)`** - Returns subtracting 1 from exp(x).
 - **`fact(x)`** - Returns the factorial of `x`.
-- **`fib(n)`** - Returns the `n`th Fibonacci number
 - **`floor(x[,y])`** - Returns the largest integer less than or equal to a number, or a multiple of `y`.
 - **`fround(x)`** - Returns the nearest single precision float representation of a number.
 - **`hypot(x[,y[, ...]])`** - Returns the square root of the sum of squares of its arguments.
-- **`imul(x,y)`** - Returns the result of a 32-bit integer multiplication.
 - **`log(x)`** - Returns the natural logarithm (loge, also ln) of a number.
-- **`log1p(x)`** - Returns the natural logarithm (loge, also ln) of 1 + x for a number x.
 - **`log10(x)`** - Returns the base 10 logarithm of a number.
 - **`log2(x)`** - Returns the base 2 logarithm of a number.
 - **`max([x[,y[, ...]])`** - Returns the largest of zero or more numbers.
