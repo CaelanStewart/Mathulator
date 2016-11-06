@@ -1,24 +1,24 @@
 const NUMERIC_CHARSET = '01234567890.',
-      ALPHA_CHARSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_',
-      OPERATOR_CHARSET = '+-/*^%',
+	  ALPHA_CHARSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_',
+	  OPERATOR_CHARSET = '+-/*^%',
 	  WHITE_SPACE_REGEX = /\s/;
 
 const MathFunctions = {
-    fact: function (value) {
+	fact: function (value) {
 		if(arguments.length !== 1) {
 			throw new Error("function 'fact' requires exactly one argument");
 		}
 
-        var iter,
-            multiplier,
-            returnValue = value;
+		var iter,
+			multiplier,
+			returnValue = value;
 
-        for(multiplier = value - 1; multiplier > 0; --multiplier) {
-            returnValue *= multiplier;
-        }
+		for(multiplier = value - 1; multiplier > 0; --multiplier) {
+			returnValue *= multiplier;
+		}
 
-        return returnValue;
-    },
+		return returnValue;
+	},
 	fib: function(n) {
 		if(arguments.length !== 1) {
 			throw new Error("function 'fib' requires exactly one argument");
@@ -107,61 +107,61 @@ allowedMathFunctions = [
 ];
 
 const Helpers = {
-    isNumeric: char => NUMERIC_CHARSET.indexOf(char) !== -1,
-    isAlpha: char => ALPHA_CHARSET.indexOf(char) !== -1,
-    isOperator: char => OPERATOR_CHARSET.indexOf(char) !== -1,
-    isMathFunction: keyword => typeof MathFunctions[keyword] === 'function' || allowedMathFunctions.indexOf(keyword) !== -1,
-    isWhitespace: char => WHITE_SPACE_REGEX.test(char),
-    radians: angle => angle * Math.PI / 180
+	isNumeric: char => NUMERIC_CHARSET.indexOf(char) !== -1,
+	isAlpha: char => ALPHA_CHARSET.indexOf(char) !== -1,
+	isOperator: char => OPERATOR_CHARSET.indexOf(char) !== -1,
+	isMathFunction: keyword => typeof MathFunctions[keyword] === 'function' || allowedMathFunctions.indexOf(keyword) !== -1,
+	isWhitespace: char => WHITE_SPACE_REGEX.test(char),
+	radians: angle => angle * Math.PI / 180
 };
 
 const OperatorFunctions = {
-    '+': (left, right) => left + right,
-    '-': (left, right) => left - right,
-    '/': (left, right) => left / right,
-    '*': (left, right) => left * right,
-    '%': (left, right) => left % right,
-    '^': (left, right) => Math.pow(left, right)
+	'+': (left, right) => left + right,
+	'-': (left, right) => left - right,
+	'/': (left, right) => left / right,
+	'*': (left, right) => left * right,
+	'%': (left, right) => left % right,
+	'^': (left, right) => Math.pow(left, right)
 };
 
 /**
  * JavaScript deep clone function from StackOverflow
  */
 function clone(obj){
-    if(typeof(obj) == 'function')//it's a simple function
-        return obj;
-    //of it's not an object (but could be an array...even if in javascript arrays are objects)
-    if(typeof(obj) !=  'object' || obj.constructor.toString().indexOf('Array')!=-1)
-        if(JSON != undefined)//if we have the JSON obj
-            try{
-                return JSON.parse(JSON.stringify(obj));
-            }catch(err){
-                return JSON.parse('"'+JSON.stringify(obj)+'"');
-            }
-        else
-            try{
-                return eval(uneval(obj));
-            }catch(err){
-                return eval('"'+uneval(obj)+'"');
-            }
-    // I used to rely on jQuery for this, but the "extend" function returns
-    //an object similar to the one cloned,
-    //but that was not an instance (instanceof) of the cloned class
-    /*
-    if(jQuery != undefined)//if we use the jQuery plugin
-        return jQuery.extend(true,{},obj);
-    else//we recursivley clone the object
-    */
-    return (function _clone(obj){
-        if(obj == null || typeof(obj) != 'object')
-            return obj;
-        function temp () {};
-        temp.prototype = obj;
-        var F = new temp;
-        for(var key in obj)
-            F[key] = clone(obj[key]);
-        return F;
-    })(obj);
+	if(typeof(obj) == 'function')//it's a simple function
+		return obj;
+	//of it's not an object (but could be an array...even if in javascript arrays are objects)
+	if(typeof(obj) !=  'object' || obj.constructor.toString().indexOf('Array')!=-1)
+		if(JSON != undefined)//if we have the JSON obj
+			try{
+				return JSON.parse(JSON.stringify(obj));
+			}catch(err){
+				return JSON.parse('"'+JSON.stringify(obj)+'"');
+			}
+		else
+			try{
+				return eval(uneval(obj));
+			}catch(err){
+				return eval('"'+uneval(obj)+'"');
+			}
+	// I used to rely on jQuery for this, but the "extend" function returns
+	//an object similar to the one cloned,
+	//but that was not an instance (instanceof) of the cloned class
+	/*
+	if(jQuery != undefined)//if we use the jQuery plugin
+		return jQuery.extend(true,{},obj);
+	else//we recursivley clone the object
+	*/
+	return (function _clone(obj){
+		if(obj == null || typeof(obj) != 'object')
+			return obj;
+		function temp () {};
+		temp.prototype = obj;
+		var F = new temp;
+		for(var key in obj)
+			F[key] = clone(obj[key]);
+		return F;
+	})(obj);
 }
 
 function getListPrimitiveArray(itms) {
@@ -178,18 +178,18 @@ function getListPrimitiveArray(itms) {
 }
 
 function ExpressionParser(variables, macros) {
-    'use strict';
+	'use strict';
 
 	if(Object.prototype.toString.call(variables) === '[object Object]') {
 		this.variables = variables
 	} else {
-	    this.variables = {
-	        pi: Math.PI,
-	        PI: Math.PI,
-	        e: Math.E,
-	        E: Math.E,
+		this.variables = {
+			pi: Math.PI,
+			PI: Math.PI,
+			e: Math.E,
+			E: Math.E,
 			randf: () => Math.random()
-	    };
+		};
 	}
 
 	if(Object.prototype.toString.call(macros) === '[object Object]') {
@@ -201,7 +201,7 @@ function ExpressionParser(variables, macros) {
 	this.variableSetCallbacks = { };
 	this.macroSetCallbacks = { };
 
-    this.readOnlyVariables = ['pi', 'PI', 'e', 'E', 'randf'];
+	this.readOnlyVariables = ['pi', 'PI', 'e', 'E', 'randf'];
 };
 
 ExpressionParser.prototype.onVariableSet = function(reference, callback) {
@@ -244,41 +244,41 @@ ExpressionParser.prototype.triggerMacroSetEvent = function(name, argList, exprTk
 
 /* Sets a variable */
 ExpressionParser.prototype.setVariable = function(name, value, triggerEvent) {
-    'use strict';
+	'use strict';
 
-    if(this.readOnlyVariables.indexOf(name) !== -1) {
-        throw new Error('Cannot set read only variable "' + name + '"');
-    }
+	if(this.readOnlyVariables.indexOf(name) !== -1) {
+		throw new Error('Cannot set read only variable "' + name + '"');
+	}
 
 	if(triggerEvent !== false) {
 		this.triggerVariableSetEvent(name, value);
 	}
 
-    this.variables[name] = value;
+	this.variables[name] = value;
 };
 
 /* Gets a variable */
 ExpressionParser.prototype.getVariable = function(name) {
-    'use strict';
+	'use strict';
 
-    if(this.isVariable(name)) {
+	if(this.isVariable(name)) {
 		let variable = this.variables[name];
 
-        if(typeof variable === 'function') {
-            return variable();
-        }
+		if(typeof variable === 'function') {
+			return variable();
+		}
 
-        return variable;
-    }
+		return variable;
+	}
 
-    return undefined;
+	return undefined;
 };
 
 /* Checks if a variable exists */
 ExpressionParser.prototype.isVariable = function(name) {
-    'use strict';
+	'use strict';
 
-    return this.variables.hasOwnProperty(name);
+	return this.variables.hasOwnProperty(name);
 };
 
 ExpressionParser.prototype.setMacro = function(name, argList, exprTkns, triggerEvent) {
@@ -324,71 +324,71 @@ ExpressionParser.prototype.runMacro = function(name, list) {
 
 /* Parse an expression */
 ExpressionParser.prototype.parse = function(expression) {
-    'use strict';
+	'use strict';
 
-    var tokens = this.tokenize(expression);
+	var tokens = this.tokenize(expression);
 
-    tokens = this.parseTokens(tokens);
+	tokens = this.parseTokens(tokens);
 
-    var tokensLength = tokens.length,
-        iter,
-        value = null,
-        last_number = null,
-        flag_assignment = false;
+	var tokensLength = tokens.length,
+		iter,
+		value = null,
+		last_number = null,
+		flag_assignment = false;
 
-    for(iter = 0; iter < tokensLength; ++iter) {
-        // Get the value
-        if(tokens[iter][0] === 'number') {
-            value = tokens[iter][1];
-        }
+	for(iter = 0; iter < tokensLength; ++iter) {
+		// Get the value
+		if(tokens[iter][0] === 'number') {
+			value = tokens[iter][1];
+		}
 
-        if(tokens[iter][0] === 'assignment') {
-            if(
-                iter - 1 === 0 &&                   // Check there is a keyword previous
-                iter + 1 < tokensLength &&          // Check there is a value to set next
+		if(tokens[iter][0] === 'assignment') {
+			if(
+				iter - 1 === 0 &&                   // Check there is a keyword previous
+				iter + 1 < tokensLength &&          // Check there is a value to set next
 
-                tokens[iter - 1][0] === 'keyword'
-            ) {
-                flag_assignment = true;
-            } else {
-                throw new Error('Unexpected assignment');
-            }
-        }
-    }
+				tokens[iter - 1][0] === 'keyword'
+			) {
+				flag_assignment = true;
+			} else {
+				throw new Error('Unexpected assignment');
+			}
+		}
+	}
 
-    if(flag_assignment) {
-        this.setVariable(tokens[0][1], value);
-    }
+	if(flag_assignment) {
+		this.setVariable(tokens[0][1], value);
+	}
 
-    return value;
+	return value;
 };
 
 /* Parse tokens */
 ExpressionParser.prototype.parseTokens = function(tkns) {
-    'use strict';
+	'use strict';
 
-    var tokens = tkns;
+	var tokens = tkns;
 
 	tokens = this.parseArgLists(tokens);
-    tokens = this.parseMacros(tokens);
-    tokens = this.parseLists(tokens);
-    tokens = this.parseVariables(tokens);
-    tokens = this.parseBrackets(tokens);
-    tokens = this.parseNegatives(tokens);
-    tokens = this.parseFunctions(tokens);
-    tokens = this.parseOperations(tokens);
+	tokens = this.parseMacros(tokens);
+	tokens = this.parseLists(tokens);
+	tokens = this.parseVariables(tokens);
+	tokens = this.parseBrackets(tokens);
+	tokens = this.parseNegatives(tokens);
+	tokens = this.parseFunctions(tokens);
+	tokens = this.parseOperations(tokens);
 
-    return tokens;
+	return tokens;
 };
 
 ExpressionParser.prototype.parseMacros = function(tkns) {
 	'use strict';
 
 	var tokens = tkns,
-        tokensLength = tokens.length,
-        bracketDepth = 0,
-        bracketIndex = 0,
-        iter;
+		tokensLength = tokens.length,
+		bracketDepth = 0,
+		bracketIndex = 0,
+		iter;
 
 	for(iter = 0; iter < tokensLength; ++iter) {
 		if(
@@ -425,10 +425,10 @@ ExpressionParser.prototype.parseArgLists = function(tkns) {
 	'use strict';
 
 	var tokens = tkns,
-        tokensLength = tokens.length,
-        braceDepth = 0,
-        braceIndex = 0,
-        iter,
+		tokensLength = tokens.length,
+		braceDepth = 0,
+		braceIndex = 0,
+		iter,
 		flag_list = true,
 		items = [ ],
 		listIndex = 0;
@@ -442,10 +442,10 @@ ExpressionParser.prototype.parseArgLists = function(tkns) {
 
 			if(braceDepth > 0) {
 				if(tokens[iter][1] === '}') {
-                    --braceDepth;
-                }
+					--braceDepth;
+				}
 
-                if(braceDepth === 0 && flag_list) {
+				if(braceDepth === 0 && flag_list) {
 					let argTokens = tokens.slice(listIndex + 1, iter);
 
 					if(argTokens.length !== 1 || argTokens[0][0] !== 'keyword') {
@@ -462,7 +462,7 @@ ExpressionParser.prototype.parseArgLists = function(tkns) {
 					iter += tokens.length - tokensLength;
 					tokensLength = tokens.length;
 					flag_list = false;
-                }
+				}
 			}
 
 			if(tokens[iter][1] === '{') {
@@ -523,10 +523,10 @@ ExpressionParser.prototype.parseLists = function(tkns) {
 	'use strict';
 
 	var tokens = tkns,
-        tokensLength = tokens.length,
-        bracketDepth = 0,
-        bracketIndex = 0,
-        iter,
+		tokensLength = tokens.length,
+		bracketDepth = 0,
+		bracketIndex = 0,
+		iter,
 		flag_list = false,
 		items = null,
 		listIndex = 0;
@@ -540,10 +540,10 @@ ExpressionParser.prototype.parseLists = function(tkns) {
 
 			if(bracketDepth > 0) {
 				if(tokens[iter][1] === ')') {
-                    --bracketDepth;
-                }
+					--bracketDepth;
+				}
 
-                if(bracketDepth === 0 && flag_list) {
+				if(bracketDepth === 0 && flag_list) {
 					let argTokens = tokens.slice(listIndex + 1, iter);
 
 					if(argTokens.length) {
@@ -560,7 +560,7 @@ ExpressionParser.prototype.parseLists = function(tkns) {
 					iter += tokens.length - tokensLength;
 					tokensLength = tokens.length;
 					flag_list = false;
-                }
+				}
 			}
 
 			if(tokens[iter][1] === '(') {
@@ -625,26 +625,26 @@ ExpressionParser.prototype.parseLists = function(tkns) {
 };
 
 ExpressionParser.prototype.parseBrackets = function(tkns) {
-    'use strict';
+	'use strict';
 
-    var tokens = tkns,
-        tokensLength = tokens.length,
-        bracketDepth = 0,
-        bracketIndex = 0,
-        iter;
+	var tokens = tkns,
+		tokensLength = tokens.length,
+		bracketDepth = 0,
+		bracketIndex = 0,
+		iter;
 
-    for(iter = 0; iter < tokensLength; ++iter) {
-        if(tokens[iter][0] === 'bracket') {
-            if(tokens[iter][1] === ')' && bracketDepth === 0) {
-                throw new Error('Invalid bracket syntax');
-            }
+	for(iter = 0; iter < tokensLength; ++iter) {
+		if(tokens[iter][0] === 'bracket') {
+			if(tokens[iter][1] === ')' && bracketDepth === 0) {
+				throw new Error('Invalid bracket syntax');
+			}
 
-            if(bracketDepth > 0) {
-                if(tokens[iter][1] === ')') {
-                    --bracketDepth;
-                }
+			if(bracketDepth > 0) {
+				if(tokens[iter][1] === ')') {
+					--bracketDepth;
+				}
 
-                if(bracketDepth === 0) {
+				if(bracketDepth === 0) {
 					let leftSide = tokens.slice(0, bracketIndex),
 						rightSide = tokens.slice(iter + 1),
 						parsed;
@@ -654,75 +654,75 @@ ExpressionParser.prototype.parseBrackets = function(tkns) {
 					tokens = leftSide.concat(parsed, rightSide);
 					iter += tokens.length - tokensLength;
 					tokensLength = tokens.length;
-                }
-            }
+				}
+			}
 
-            if(tokens[iter][1] === '(') {
-                if(bracketDepth === 0) {
-                    bracketIndex = iter;
-                }
+			if(tokens[iter][1] === '(') {
+				if(bracketDepth === 0) {
+					bracketIndex = iter;
+				}
 
-                ++bracketDepth;
-            }
-        }
-    }
+				++bracketDepth;
+			}
+		}
+	}
 
-    if(bracketDepth > 0) {
-        throw new Error('Invalid bracket syntax');
-    }
+	if(bracketDepth > 0) {
+		throw new Error('Invalid bracket syntax');
+	}
 
-    return tokens;
+	return tokens;
 };
 
 ExpressionParser.prototype.parseNegatives = function(tkns) {
-    'use strict';
+	'use strict';
 
-    var tokens = tkns,
-        tokensLength = tokens.length,
-        iter;
+	var tokens = tkns,
+		tokensLength = tokens.length,
+		iter;
 
-    for(iter = 0; iter < tokensLength; ++iter) {
-        // Logic for a negative number
-        if(
-            tokens[iter][0] === 'operator' &&
-            (
-                tokens[iter][1] === '-' ||          // Check it's a minus symbol
-                tokens[iter][1] === '+'             // Or a plus symbol
-            ) &&
-            (
-                iter - 1 < 0 ||                     // Either there is no previous token...
-                tokens[iter - 1][0] !== 'number'    // Or it's not a number
-            ) &&
-            iter + 1 < tokensLength &&              // Check there is a proceeding token
-            tokens[iter + 1][0] === 'number'        // And it's a number
-        ) {
-            // Make the next number a negative
-            tokens[iter + 1][1] = tokens[iter][1] === '-' ? -tokens[iter + 1][1] : tokens[iter + 1][1];
-            // Remove this token from stack
-            tokens.splice(iter, 1);
-            --tokensLength;
-            --iter;
-            continue;
-        }
-    }
+	for(iter = 0; iter < tokensLength; ++iter) {
+		// Logic for a negative number
+		if(
+			tokens[iter][0] === 'operator' &&
+			(
+				tokens[iter][1] === '-' ||          // Check it's a minus symbol
+				tokens[iter][1] === '+'             // Or a plus symbol
+			) &&
+			(
+				iter - 1 < 0 ||                     // Either there is no previous token...
+				tokens[iter - 1][0] !== 'number'    // Or it's not a number
+			) &&
+			iter + 1 < tokensLength &&              // Check there is a proceeding token
+			tokens[iter + 1][0] === 'number'        // And it's a number
+		) {
+			// Make the next number a negative
+			tokens[iter + 1][1] = tokens[iter][1] === '-' ? -tokens[iter + 1][1] : tokens[iter + 1][1];
+			// Remove this token from stack
+			tokens.splice(iter, 1);
+			--tokensLength;
+			--iter;
+			continue;
+		}
+	}
 
-    return tokens;
+	return tokens;
 };
 
 ExpressionParser.prototype.parseVariables = function(tkns) {
-    'use strict';
+	'use strict';
 
-    var tokens = tkns,
-        tokensLength = tokens.length,
-        iter;
+	var tokens = tkns,
+		tokensLength = tokens.length,
+		iter;
 
-    for(iter = 0; iter < tokensLength; ++iter) {
-        if(tokens[iter][0] === 'keyword') {
-            if(
-                (
-                    iter === tokensLength - 1 ||            // Either this is the last token
-                    tokens[iter + 1][0] !== 'assignment'    // Or the next token is not an assignment
-                ) &&
+	for(iter = 0; iter < tokensLength; ++iter) {
+		if(tokens[iter][0] === 'keyword') {
+			if(
+				(
+					iter === tokensLength - 1 ||            // Either this is the last token
+					tokens[iter + 1][0] !== 'assignment'    // Or the next token is not an assignment
+				) &&
 				(
 					iter === tokensLength - 1 ||
 					(
@@ -730,48 +730,48 @@ ExpressionParser.prototype.parseVariables = function(tkns) {
 						tokens[iter + 1][0] !== 'number'
 					)
 				)
-            ) {
-                // Check variable exists
-                if(this.isVariable(tokens[iter][1])) {
-                    if(
-                        iter - 1 >= 0 &&
-                        tokens[iter - 1][0] === 'number'
-                    ) {
-                        tokens[iter][0] = 'number';
-                        tokens[iter][1] = this.getVariable(tokens[iter][1]) * tokens[iter - 1][1];
+			) {
+				// Check variable exists
+				if(this.isVariable(tokens[iter][1])) {
+					if(
+						iter - 1 >= 0 &&
+						tokens[iter - 1][0] === 'number'
+					) {
+						tokens[iter][0] = 'number';
+						tokens[iter][1] = this.getVariable(tokens[iter][1]) * tokens[iter - 1][1];
 
-                        let leftSide = tokens.slice(0, iter - 1),
-                            rightSide = tokens.slice(iter);
+						let leftSide = tokens.slice(0, iter - 1),
+							rightSide = tokens.slice(iter);
 
-                        tokens = leftSide.concat(rightSide);
+						tokens = leftSide.concat(rightSide);
 
-                        --iter;
-                        --tokensLength;
-                    } else {
-                        tokens[iter][0] = 'number';
-                        tokens[iter][1] = this.getVariable(tokens[iter][1]);
-                    }
+						--iter;
+						--tokensLength;
+					} else {
+						tokens[iter][0] = 'number';
+						tokens[iter][1] = this.getVariable(tokens[iter][1]);
+					}
 
-                    continue;
-                } else {
-                    throw new Error('Undefined variable "' + tokens[iter][1] + '"');
-                }
-            }
-        }
-    }
+					continue;
+				} else {
+					throw new Error('Undefined variable "' + tokens[iter][1] + '"');
+				}
+			}
+		}
+	}
 
-    return tokens;
+	return tokens;
 };
 
 ExpressionParser.prototype.parseFunctions = function(tkns) {
-    'use strict';
+	'use strict';
 
-    var tokens = tkns,
-        tokensLength = tokens.length,
-        iter;
+	var tokens = tkns,
+		tokensLength = tokens.length,
+		iter;
 
-    for(iter = 0; iter < tokensLength; ++iter) {
-        if(
+	for(iter = 0; iter < tokensLength; ++iter) {
+		if(
 			tokens[iter][0] === 'keyword' &&
 			iter + 1 < tokensLength &&
 			(
@@ -779,11 +779,11 @@ ExpressionParser.prototype.parseFunctions = function(tkns) {
 				tokens[iter + 1][0] === 'list'
 			)
 		) {
-            if(
+			if(
 				tokens[iter][1] in MathFunctions ||
 				allowedMathFunctions.indexOf(tokens[iter][1]) !== -1 ||
 				tokens[iter][1] in this.macros
-            ) {
+			) {
 				let mathFunction,
 					context,
 					macro;
@@ -822,110 +822,110 @@ ExpressionParser.prototype.parseFunctions = function(tkns) {
 					}
 				}
 
-                // Remove this token from stack
-                tokens.splice(iter, 1);
-                --tokensLength;
-                --iter;
-            } else {
-                throw new Error('Undefined function "' + tokens[iter][1] + '"');
-            }
-        }
-    }
+				// Remove this token from stack
+				tokens.splice(iter, 1);
+				--tokensLength;
+				--iter;
+			} else {
+				throw new Error('Undefined function "' + tokens[iter][1] + '"');
+			}
+		}
+	}
 
-    return tokens;
+	return tokens;
 };
 
 ExpressionParser.prototype.parseOperations = function(tkns) {
-    'use strict';
+	'use strict';
 
-    // Order of operations
-    var operators = ['^', '/', '*', '+', '-'],
-        tokens = tkns,
+	// Order of operations
+	var operators = ['^', '/', '*', '+', '-'],
+		tokens = tkns,
 		self = this;
 
-    operators.forEach(operator => tokens = self.parseOperator(tokens, operator));
+	operators.forEach(operator => tokens = self.parseOperator(tokens, operator));
 
-    return tokens;
+	return tokens;
 };
 
 ExpressionParser.prototype.parseOperator = function(tkns, oprtr) {
-    'use strict';
+	'use strict';
 
-    var tokens = tkns,
-        operator = oprtr,
-        tokensLength = tokens.length,
-        iter;
+	var tokens = tkns,
+		operator = oprtr,
+		tokensLength = tokens.length,
+		iter;
 
-    for(iter = 0; iter < tokensLength; ++iter) {
-        var token = tokens[iter],
-            token_type = token[0],
-            token_value = token[1];
+	for(iter = 0; iter < tokensLength; ++iter) {
+		var token = tokens[iter],
+			token_type = token[0],
+			token_value = token[1];
 
-        if(token_type === 'operator' && token_value === operator) {
-            if(
-                iter - 1 >= 0 &&                        // Check there is a previous token
-                iter + 1 < tokensLength &&              // Check there is a next token
-                tokens[iter - 1][0] === 'number' &&     // Check the previous token is a number
-                tokens[iter + 1][0] === 'number'        // Check the next token is a number
-            ) {
-                tokens[iter + 1][1] = OperatorFunctions[token_value](tokens[iter - 1][1], tokens[iter + 1][1]);
+		if(token_type === 'operator' && token_value === operator) {
+			if(
+				iter - 1 >= 0 &&                        // Check there is a previous token
+				iter + 1 < tokensLength &&              // Check there is a next token
+				tokens[iter - 1][0] === 'number' &&     // Check the previous token is a number
+				tokens[iter + 1][0] === 'number'        // Check the next token is a number
+			) {
+				tokens[iter + 1][1] = OperatorFunctions[token_value](tokens[iter - 1][1], tokens[iter + 1][1]);
 
-                let leftSide = tokens.slice(0, iter - 1),
-                    rightSide = tokens.slice(iter + 1);
+				let leftSide = tokens.slice(0, iter - 1),
+					rightSide = tokens.slice(iter + 1);
 
-                // Replace sub-expression with the result value
-                tokens = leftSide.concat(rightSide);
-                iter += tokens.length - tokensLength;
-                tokensLength = tokens.length;
+				// Replace sub-expression with the result value
+				tokens = leftSide.concat(rightSide);
+				iter += tokens.length - tokensLength;
+				tokensLength = tokens.length;
 
-                continue;
-            } else {
-                throw new Error('unexpected operator "' + tokens[iter][1] + '"');
-            }
-        }
-    }
+				continue;
+			} else {
+				throw new Error('unexpected operator "' + tokens[iter][1] + '"');
+			}
+		}
+	}
 
-    return tokens;
+	return tokens;
 };
 
 /**
  * Split expression into tokens
  */
 ExpressionParser.prototype.tokenize = function(expr) {
-    'use strict';
+	'use strict';
 
-    // TOKENIZER VARS
-    var expression = expr + ' ', // Append space so that the last character before that space is tokenised
-        expressionLength = expression.length,
-        iter,
-        tokens = [ ],
-        buffer = '';
+	// TOKENIZER VARS
+	var expression = expr + ' ', // Append space so that the last character before that space is tokenised
+		expressionLength = expression.length,
+		iter,
+		tokens = [ ],
+		buffer = '';
 
-    // FLAGS
-    var flag_numeric = false,
-        flag_keyword = false,
-        flag_operator = false,
+	// FLAGS
+	var flag_numeric = false,
+		flag_keyword = false,
+		flag_operator = false,
 		flag_sciNotation = false;
 
-    // Iterate through expression
-    for(iter = 0; iter < expressionLength; ++iter) {
-        let char = expression.charAt(iter),
-            char_isNumeric = Helpers.isNumeric(char),
-            char_isOperator = Helpers.isOperator(char),
-            char_isAlpha = Helpers.isAlpha(char);
+	// Iterate through expression
+	for(iter = 0; iter < expressionLength; ++iter) {
+		let char = expression.charAt(iter),
+			char_isNumeric = Helpers.isNumeric(char),
+			char_isOperator = Helpers.isOperator(char),
+			char_isAlpha = Helpers.isAlpha(char);
 
-        if(flag_keyword) {
-            // We've reached the end of the keyword
-            if(!char_isAlpha) {
-                flag_keyword = false;
-                tokens.push(['keyword', buffer]);
-                buffer = '';
-            }
-        }
+		if(flag_keyword) {
+			// We've reached the end of the keyword
+			if(!char_isAlpha) {
+				flag_keyword = false;
+				tokens.push(['keyword', buffer]);
+				buffer = '';
+			}
+		}
 
-        if(flag_numeric) {
-            // We've reached the end of the number
-            if(!char_isNumeric) {
+		if(flag_numeric) {
+			// We've reached the end of the number
+			if(!char_isNumeric) {
 				if(char === 'e') {
 					flag_sciNotation = true;
 					buffer += char;
@@ -938,36 +938,36 @@ ExpressionParser.prototype.tokenize = function(expr) {
 					continue;
 				}
 
-                tokens.push(['number', Number(buffer)]);
+				tokens.push(['number', Number(buffer)]);
 
-                flag_numeric = false;
+				flag_numeric = false;
 				flag_sciNotation = false;
-                buffer = '';
-            } else {
+				buffer = '';
+			} else {
 				flag_sciNotation = false;
 			}
-        }
+		}
 
-        if(char_isNumeric) {                     // Check for a number
-            flag_numeric = true;
-            buffer += char;
-        } else if(char_isAlpha) {                // Check for a keyword
-            flag_keyword = true;
-            buffer += char;
-        } else if(char_isOperator) {             // Check for an operator
-            tokens.push(['operator', char]);
-        } else if(char === '(' || char === ')') {                // Check for parentheses
-            tokens.push(['bracket', char]);
-        } else if(char === '=') {                // Check for assignment
-            tokens.push(['assignment', char]);
-        } else if(char === ',') {
+		if(char_isNumeric) {                     // Check for a number
+			flag_numeric = true;
+			buffer += char;
+		} else if(char_isAlpha) {                // Check for a keyword
+			flag_keyword = true;
+			buffer += char;
+		} else if(char_isOperator) {             // Check for an operator
+			tokens.push(['operator', char]);
+		} else if(char === '(' || char === ')') {                // Check for parentheses
+			tokens.push(['bracket', char]);
+		} else if(char === '=') {                // Check for assignment
+			tokens.push(['assignment', char]);
+		} else if(char === ',') {
 			tokens.push(['comma', char]);
 		} else if(char === '{' || char === '}') {
 			tokens.push(['brace', char]);
 		} else if(!Helpers.isWhitespace(char)) { // Check for whitespace
-            throw new Error('Unexpected char "' + char + '"');
-        }
-    }
+			throw new Error('Unexpected char "' + char + '"');
+		}
+	}
 
-    return tokens;
+	return tokens;
 };

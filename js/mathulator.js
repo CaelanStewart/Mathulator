@@ -242,7 +242,6 @@ var Mathulator = (function(window, document) {
 			elements.input.value = result;
 			addHistoryEntry(expression, result);
 			addToLocalStorage(expression, result);
-			++currentHistoryIndex;
 		} catch(e) {
 			elements.input.value = e.message;
 		}
