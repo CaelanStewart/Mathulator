@@ -255,9 +255,9 @@ var Mathulator = (function(window, document) {
 	function evaluate() {
 		var expression = elements.input.value,
 			result;
-result = ep.parse(expression);
+			
 		try {
-			//result = ep.parse(expression);
+			result = ep.parse(expression);
 			elements.input.value = result;
 			addHistoryEntry(expression, result);
 			addToLocalStorage(expression, result);
@@ -318,7 +318,11 @@ result = ep.parse(expression);
 		history.forEach(function(item) {
 			let [expression, value] = item;
 			
-			if(typeof value === 'object' && value.hasOwnProperty('mathjs')) {
+			if(!value) {
+				return;	
+			}
+			
+			if(typeof value === 'object' && 'mathjs' in value) {
 				value = value.value;
 			}
 			

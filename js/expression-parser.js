@@ -42,7 +42,6 @@ const MathFunctions = {
 		return new Decimal(Math.random());
 	},
 	round: function(n, toMultiple) {
-		console.log(toMultiple.toFixed());
 		if(typeof toMultiple !== 'undefined') {
 			return n.dividedBy(toMultiple).round().times(toMultiple);
 		} else {
@@ -381,8 +380,8 @@ ExpressionParser.prototype.parseTokens = function(tkns) {
 	tokens = this.parseArgLists(tokens);
 	tokens = this.parseMacros(tokens);
 	tokens = this.parseLists(tokens);
-	tokens = this.parseVariables(tokens);
 	tokens = this.parseBrackets(tokens);
+	tokens = this.parseVariables(tokens);
 	tokens = this.parseNegatives(tokens);
 	tokens = this.parseFunctions(tokens);
 	tokens = this.parseOperations(tokens);
