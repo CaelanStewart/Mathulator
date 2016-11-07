@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="3rd-party/remodal/remodal-default-theme.css" />
 		<link rel="stylesheet" href="3rd-party/font-awesome/css/font-awesome.min.css" />
 	</head>
-	<body data-template="mathulator">
+	<body>
 		<div class="mathulator" id="mathulator">
 			<div class="mathulator-inner">
 				<div class="display">
@@ -64,6 +64,7 @@
 		<div id="mathulator-sidebar" class="no-select">
 			<div class="toolbar">
 				<button type="button" class="close-history button" data-tooltip="Close sidebar" data-tooltip-place="left"><i class="fa fa-chevron-right"></i></button>
+				<button type="button" data-remodal-target="settings" class="button" data-tooltip="Settings" data-tooltip-place="left"><i class="fa fa-cog"></i></button>
 				<button type="button" data-remodal-target="available-math-functions" class="button" data-tooltip="Help" data-tooltip-place="left"><i class="fa fa-question-circle"></i></button>
 				<button type="button" class="button clear-history" data-tooltip="Clear history" data-tooltip-place="left"><i class="fa fa-history"></i></button>
 				<button type="button" class="button clear-variables" data-tooltip="Clear variables" data-tooltip-place="left"><i class="fa fa-close"></i></button>
@@ -113,11 +114,20 @@
 				</span><span class="no-select">= </span>50<span class="no-select"><br /><br />
 
 				</span><b>area{w,h} = w*h</b><span class="no-select"><br />
-				<small>Create macros for later usage<br /><br />
+				<small>Create macros for later usage</small><br /><br />
 
 				</span><b>area(width,height)</b><span class="no-select"><br />
 				</span><span class="no-select">≈ </span>12350
 			</pre>
+		</div>
+
+		<div class="remodal" data-remodal-id="settings" id="settings">
+			<button data-remodal-action="close" class="remodal-close"></button>
+			<h2 class="no-select">Settings</h2>
+			<label>
+				Precision (1024 max)<br />
+				<input type="number" name="precision" id="input-precision" value="20"  min="1" max="1024" />
+			</label>
 		</div>
 
 		<!-- jQuery is just for remodal -->

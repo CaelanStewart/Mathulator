@@ -1,17 +1,60 @@
 var Mathulator = (function(window, document) {
 	'use strict';
 
-	var elements,
-		ep = new ExpressionParser(),
-		expressionHistory = [],
-		historyEntries = [ ],
+	var historyEntries = [ ],
 		tooltip = new Tooltips.Tooltip('', {auto: true}),
 		tooltips = new Tooltips(document.body),
 		variableEntries = [ ],
-		variables = { },
 		macroEntries = [ ],
 		macros = { },
-		Decimal = require('decimal.js');
+		data = { },
+		elements,
+		ep;
+		
+	function loadData() {
+		var storedData = localStorage.getItem('data'),
+			parsedData;
+		
+		if(!storedData) {
+			storedData = '{ }';
+		}
+		
+		parsedData = JSON.parse(storedData);
+		
+		// Error checking
+		if(!parsedData || typeof parsedData !== 'object' || Object.prototype.toString.call(parsedData) !== '[object Object]') {
+			console.log('Stored data is corrupted, resetting.');
+			parsedData = { };
+		}
+		
+		data = parsedData;
+	}
+		
+	function saveData() {
+		// Error checking
+		if(!data || typeof data !== 'object' || Object.prototype.toString.call(data) !== '[object Object]') {
+			console.log('Data in memory is corrupted, resetting.');
+			data = { };
+		}
+		
+		var jsonData = JSON.stringify(data);
+		
+		window.localStorage.setItem('data', jsonData);
+	}
+		
+	function setData(name, value) {
+		data[name] = value;
+		
+		saveData();
+	}
+	
+	function getData(name) {
+		if(data.hasOwnProperty(name)) {
+			return data[name];
+		}
+		
+		return null;
+	}
 
 	function clearScreen() {
 		elements.input.value = '';
@@ -96,10 +139,10 @@ var Mathulator = (function(window, document) {
 		} else {
 			elements.historyEntryContainer.insertBefore(div, historyEntries[historyEntries.length - 1]);
 		}
+		
+		historyEntries.push(div);
 
 		button.cachedAnswer = answer;
-
-		historyEntries.push(div);
 	}
 
 	function addVariableEntry(name, value) {
@@ -161,106 +204,87 @@ var Mathulator = (function(window, document) {
 	}
 
 	function onVariableSet(name, value) {
-		variables[name] = value;
-
-		addVariableEntry(name, value);
-
-		var variablesJson = localStorage.getItem('variables'),
-			variableObj;
-
-		if(typeof variablesJson !== 'string') {
-			variablesJson = '{ }';
-		}
-
-		variableObj = JSON.parse(variablesJson);
+		var variableObj = getData('variables');
 		
-		if(Object.prototype.toString.call(variableObj) !== '[object Object]') {
-			variableObj = { };	
+		// Error checking
+		if(!variableObj || typeof variableObj !== 'object' || Object.prototype.toString.call(variableObj) !== '[object Object]') {
+			console.log('Variables data is corrupted, resetting.');
+			variableObj = { };
 		}
 
 		variableObj[name] = value;
-
-		localStorage.setItem('variables', JSON.stringify(variableObj));
+		
+		addVariableEntry(name, value);
+		setData('variables', variableObj);
 	}
 
 	function onMacroSet(name, argList, exprTkns) {
-		addMacroEntry(name, argList);
-
-		var macrosJson = localStorage.getItem('macros'),
-			macrosObj;
-
-		if(typeof macrosJson !== 'string') {
-			macrosJson = '{ }';
-		}
-
-		macrosObj = JSON.parse(macrosJson);
+		var macroObj = getData('macros');
 		
-		if(Object.prototype.toString.call(macrosObj) !== '[object Object]') {
-			macrosObj = { };	
+		// Error checking
+		if(!macroObj || typeof macroObj !== 'object' || Object.prototype.toString.call(macroObj) !== '[object Object]') {
+			console.log('macros data is corrupted, resetting.');
+			macroObj = { };
 		}
 
-		macrosObj[name] = {
+		macroObj[name] = {
 			argList: argList,
 			exprTkns: exprTkns
 		};
-
-		localStorage.setItem('macros', JSON.stringify(macrosObj));
+		
+		addMacroEntry(name, argList);
+		setData('macros', macroObj);
 	}
 
-	function addToLocalStorage(expression, answer) {
-		var historyJson = localStorage.getItem("history"),
-			history;
-
-		if(typeof historyJson !== 'string') {
-			historyJson = '[ ]';
+	function saveHistory(expression, answer) {
+		var historyArr = getData('history');
+		
+		// Error checking
+		if(!historyArr || typeof historyArr !== 'object' || Object.prototype.toString.call(historyArr) !== '[object Array]') {
+			console.log('history data is corrupted, resetting.');
+			historyArr = [ ];
 		}
-
-		history = JSON.parse(historyJson);
-
-		history.push([expression, answer]);
-
-		localStorage.setItem('history', JSON.stringify(history));
+		
+		historyArr.push([expression, answer]);
+		
+		setData('history', historyArr);
 	}
 
 	function clearHistory() {
-		localStorage.setItem('history', '[ ]');
+		setData('history', [ ]);
 
 		historyEntries.forEach(function(entry) {
 			entry.parentNode.removeChild(entry);
 		});
-
-		historyEntries = [ ];
 	}
 
 	function clearVariables() {
-		localStorage.setItem('variables', '{ }');
+		setData('variables', { });
 
 		variableEntries.forEach(function(entry) {
 			entry.parentNode.removeChild(entry);
 		});
-
-		variableEntries = [ ];
 	}
 
 	function clearMacros() {
-		localStorage.setItem('macros', '{ }');
+		setData('macros', { });
 
 		macroEntries.forEach(function(entry) {
 			entry.parentNode.removeChild(entry);
 		});
-
-		macroEntries = [ ];
 	}
 
 	function evaluate() {
 		var expression = elements.input.value,
 			result;
-			
+		
+		result = ep.parse(expression);
+		
 		try {
-			result = ep.parse(expression);
+			//result = ep.parse(expression);
 			elements.input.value = result;
 			addHistoryEntry(expression, result);
-			addToLocalStorage(expression, result);
+			saveHistory(expression, result);
 		} catch(e) {
 			elements.input.value = e.message;
 		}
@@ -304,68 +328,91 @@ var Mathulator = (function(window, document) {
 			evaluate();
 		}
 	}
-
-	function getFromLocalStorage() {
-		var historyJson = localStorage.getItem('history'),
-			history;
-
-		if(typeof historyJson !== 'string') {
-			historyJson = '[ ]';
+	
+	function getHistory() {
+		var historyArr = getData('history');
+		
+		if(!historyArr || typeof historyArr !== 'object' || Object.prototype.toString.call(historyArr) !== '[object Array]') {
+			console.log('history data is corrupted, resetting.');
+			historyArr = [ ];
 		}
-
-		history = JSON.parse(historyJson);
-
-		history.forEach(function(item) {
-			let [expression, value] = item;
+		
+		var len = historyArr.length,
+			iter;
 			
-			if(!value) {
-				return;	
-			}
+		for(iter = 0; iter < len; ++iter) {
+			let [expression, value] = historyArr[iter];
 			
-			if(typeof value === 'object' && 'mathjs' in value) {
-				value = value.value;
-			}
+			if(!value && value !== 0 && value !== '0')
+				continue;
 			
 			addHistoryEntry(expression, value);
-		});
-
-		var variablesJson = localStorage.getItem('variables'),
-			variableObj;
-
-		if(typeof variablesJson !== 'string') {
-			variablesJson = '{ }';
 		}
-
-		variableObj = JSON.parse(variablesJson);
-
-		let name;
-
+	}
+	
+	function getVariables() {
+		var variableObj = getData('variables');
+		
+		// Error checking
+		if(!variableObj || typeof variableObj !== 'object' || Object.prototype.toString.call(variableObj) !== '[object Object]') {
+			console.log('Variables data is corrupted, resetting.');
+			variableObj = { };
+		}
+		
+		var name;
+		
 		for(name in variableObj) {
 			if(variableObj.hasOwnProperty(name)) {
-				ep.setVariable(name, variableObj[name], false);
+				let value = variableObj[name];
+				
+				if(!value && value !== 0 && value !== '0')
+					continue;
+				
+				ep.setVariable(name, value, false);
+				
 				addVariableEntry(name, ep.getVariable(name));
 			}
 		}
-
-		var macrosJson = localStorage.getItem('macros'),
-			macrosObj;
-
-		if(typeof macrosJson !== 'string') {
-			macrosJson = '{ }';
+	}
+	
+	function getMacros() {
+		var macroObj = getData('macros');
+		
+		// Error checking
+		if(!macroObj || typeof macroObj !== 'object' || Object.prototype.toString.call(macroObj) !== '[object Object]') {
+			console.log('macros data is corrupted, resetting.');
+			macroObj = { };
 		}
-
-		macrosObj = JSON.parse(macrosJson);
-
-		let macroName;
-
-		for(macroName in macrosObj) {
-			if(macrosObj.hasOwnProperty(macroName)) {
-				let argList = macrosObj[macroName].argList,
-					exprTkns = macrosObj[macroName].exprTkns;
-
-				addMacroEntry(macroName, argList);
-				ep.setMacro(macroName, argList, exprTkns, false);
+		
+		let name;
+		
+		for(name in macroObj) {
+			if(macroObj.hasOwnProperty(name)) {
+				let macro = macroObj[name],
+					{argList, exprTkns} = macro;
+					
+				if(
+					!argList || typeof argList !== 'object' || Object.prototype.toString.call(argList) !== '[object Array]' ||
+					!exprTkns || typeof exprTkns !== 'object' || Object.prototype.toString.call(exprTkns) !== '[object Array]'
+				) continue;
+					
+				addMacroEntry(name, argList);
+				ep.setMacro(name, argList, exprTkns, false);
 			}
+		}
+	}
+
+	function getFromLocalStorage() {
+		getHistory();
+		getVariables();
+		getMacros();
+		
+		var precision = getData('precision');
+		
+		if(typeof precision === 'number') {
+			console.log(precision);
+			elements.inputPrecision.value = precision;
+			onPrecisionChange();
 		}
 	}
 
@@ -378,6 +425,56 @@ var Mathulator = (function(window, document) {
 		} else {
 			document.body.classList.add('sidebar-closed');
 		}
+	}
+	
+	/**
+	 * Shows an error inside a tooltip over the given element
+	 * @param element - An element object
+	 * @param {string} message - The message to display
+	 */
+	function showTooltip(element, message) {
+		if(element.tooltipTimeout) {
+			clearTimeout(element.tooltipTimeout);
+		}
+		
+		if('tooltipInstance' in element) {
+			element.tooltipInstance
+				.hide();
+			
+			element.tooltipInstance
+				.content(message)
+				.position(element)
+				.show();
+		} else {
+			element.tooltipInstance = new Tooltips.Tooltip(message)
+				.type('error')
+				.effect('fade')
+				.position(element)
+				.show(element);
+		}
+
+		element.tooltipTimeout = setTimeout(function() {
+			element.tooltipInstance.hide();
+			element.tooltipTimeout = null;
+		}, 3000);
+	}
+	
+	function onPrecisionChange() {
+		var precision = +elements.inputPrecision.value;
+		
+		if(precision > 1024) {
+			alert('Precision exceeds maximum of 1024');
+			elements.inputPrecision.value = 1024;
+			precision = 1024;
+		}
+		
+		Decimal.config({ precision: precision });
+		
+		setData('precision', precision);
+		
+		showTooltip(elements.inputPrecision, 'Precision updated');
+		
+		console.log('Precision updated to ' + precision);
 	}
 
 	function cacheElements() {
@@ -395,6 +492,7 @@ var Mathulator = (function(window, document) {
 		elements.clearVariables = elements.sidebar.querySelector('.clear-variables');
 		elements.clearMacros = elements.sidebar.querySelector('.clear-macros');
 		elements.closeSidebar = elements.sidebar.querySelector('.close-history');
+		elements.inputPrecision = document.getElementById('input-precision');
 	}
 
 	function setFixedListeners() {
@@ -408,11 +506,16 @@ var Mathulator = (function(window, document) {
 		elements.clearVariables.addEventListener('click', clearVariables);
 
 		elements.input.addEventListener('keyup', onInputKeyup);
+		elements.inputPrecision.addEventListener('change', onPrecisionChange);
 
-		ep.onVariableSet('variable-list', onVariableSet);
-		ep.onMacroSet('macro-list', onMacroSet);
+		ep.on('variable-set', onVariableSet);
+		ep.on('macro-set', onMacroSet);
 	}
-
+	
+	ep = new ExpressionParser();
+	
+	loadData();
+	
 	cacheElements();
 	setFixedListeners();
 	getFromLocalStorage();

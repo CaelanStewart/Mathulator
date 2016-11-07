@@ -3,6 +3,8 @@ const NUMERIC_CHARSET = '01234567890.',
 	  OPERATOR_CHARSET = '+-/*^%',
 	  WHITE_SPACE_REGEX = /\s/,
 	  Decimal = require('decimal.js');
+	  
+Decimal.config({ precision: 20 });
 
 const MathFunctions = {
 	fact: function (value) {
@@ -178,46 +180,70 @@ function ExpressionParser(variables, macros) {
 
 	this.variableSetCallbacks = { };
 	this.macroSetCallbacks = { };
+	
+	this.eventCallbacks = {
+		'variable-set': [ ],
+		'macro-set': [ ]
+	}
 
 	this.readOnlyVariables = ['pi', 'PI', 'e', 'E', 'randf'];
 };
 
-ExpressionParser.prototype.onVariableSet = function(reference, callback) {
-	this.variableSetCallbacks[reference] = callback;
+ExpressionParser.prototype.on = function(type, callback) {
+	if(typeof type !== 'string') {
+		throw new Error('Event type must be a string');
+	}
+	
+	if(!this.eventCallbacks.hasOwnProperty(type)) {
+		throw new Error('Invalid event type "' + type + '"');
+	}
+	
+	if(typeof callback !== 'function') {
+		throw new Error('Callback must be a function');
+	}
+	
+	this.eventCallbacks[type].push(callback);
 };
 
-ExpressionParser.prototype.offVariableSet = function(reference) {
-	delete this.variableSetCallbacks[reference];
-};
-
-ExpressionParser.prototype.triggerVariableSetEvent = function(name, value) {
-	var reference,
-		variableSetCallbacks = this.variableSetCallbacks;
-
-	for(reference in variableSetCallbacks) {
-		if(variableSetCallbacks.hasOwnProperty(reference) && typeof variableSetCallbacks[reference] === 'function') {
-			variableSetCallbacks[reference](name, value);
+ExpressionParser.prototype.off = function(type, callback) {
+	if(typeof type !== 'string') {
+		throw new Error('Event type must be a string');
+	}
+	
+	if(!this.eventCallbacks.hasOwnProperty(type)) {
+		throw new Error('Invalid event type "' + type + '"');
+	}
+	
+	if(typeof callback !== 'undefined' && typeof callback !== 'function') {
+		throw new Error('Callback must be a function');
+	}
+	
+	// Clear all events of this type
+	if(typeof callback === 'undefined') {
+		this.eventCallbacks[type] = [ ];
+	}
+	
+	let callbacks = this.eventCallbacks[type],
+		len = callbacks.length,
+		index;
+		
+	for(index = 0; index < len; ++index) {
+		if(callback === callbacks[iter]) {
+			callbacks.splice(index, 1);
 		}
 	}
 };
 
-ExpressionParser.prototype.onMacroSet = function(reference, callback) {
-	this.macroSetCallbacks[reference] = callback;
-};
-
-ExpressionParser.prototype.offMacroSet = function(reference) {
-	delete this.macroSetCallbacks[reference];
-};
-
-ExpressionParser.prototype.triggerMacroSetEvent = function(name, argList, exprTkns) {
-	var reference,
-		macroSetCallbacks = this.macroSetCallbacks;
-
-	for(reference in macroSetCallbacks) {
-		if(macroSetCallbacks.hasOwnProperty(reference) && typeof macroSetCallbacks[reference] === 'function') {
-			macroSetCallbacks[reference](name, argList, exprTkns);
-		}
+ExpressionParser.prototype.trigger = function(type, argArray) {
+	if(typeof type !== 'string') {
+		throw new Error('Event type must be a string');
 	}
+	
+	if(!this.eventCallbacks.hasOwnProperty(type)) {
+		throw new Error('Invalid event type "' + type + '"');
+	}
+	
+	this.eventCallbacks[type].forEach(callback => callback.apply(null, argArray));
 };
 
 /* Sets a variable */
@@ -228,19 +254,12 @@ ExpressionParser.prototype.setVariable = function(name, value, triggerEvent) {
 		throw new Error('Cannot set read only variable "' + name + '"');
 	}
 	
-	if(typeof value === 'string' && value.trim().indexOf('{') === 0) {
-		let obj = JSON.parse(value);
-		
-		if(typeof obj === 'object' && 'mathjs' in obj) {
-			value = new Decimal(obj.value);
-		} else {
-			console.log('Invalid number object', value);
-			return;
-		}
+	if(typeof value === 'string') {
+		value = new Decimal(value);
 	}
 
 	if(triggerEvent !== false) {
-		this.triggerVariableSetEvent(name, value);
+		this.trigger('variable-set', [name, value]);
 	}
 
 	this.variables[name] = value;
@@ -257,23 +276,8 @@ ExpressionParser.prototype.getVariable = function(name) {
 			variable = variable();
 		}
 		
-		if(typeof variable === 'number') {
+		if(typeof variable === 'number' || typeof variable === 'string') {
 			variable = new Decimal(variable);	
-		}
-	
-		if(typeof variable === 'string' && variable.trim().indexOf('{') === 0) {
-			let obj = JSON.parse(variable);
-			
-			if(typeof obj === 'object' && 'mathjs' in obj) {
-				variable = new Decimal(obj.value);
-			} else {
-				console.log('Invalid number object', variable);
-				return;
-			}
-		}
-		
-		if(typeof variable === 'object' && variable.hasOwnProperty('mathjs')) {
-			variable = new Decimal(variable.value);	
 		}
 
 		return variable;
@@ -298,7 +302,7 @@ ExpressionParser.prototype.setMacro = function(name, argList, exprTkns, triggerE
 	};
 
 	if(triggerEvent !== false) {
-		this.triggerMacroSetEvent(name, argList, exprTkns);
+		this.trigger('macro-set', [name, argList, exprTkns]);
 	}
 };
 
