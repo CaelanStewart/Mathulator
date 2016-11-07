@@ -20,7 +20,7 @@ Open your favourite command line application.
 Again, in your favourite command line application.
 ```
 > cd ~/Mathulator
-> npm start
+> npm install && npm start
 ```
 
 ## Install (executable)
