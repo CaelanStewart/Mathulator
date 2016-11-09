@@ -278,10 +278,8 @@ var Mathulator = (function(window, document) {
 		var expression = elements.input.value,
 			result;
 		
-		result = ep.parse(expression);
-		
 		try {
-			//result = ep.parse(expression);
+			result = ep.parse(expression);
 			elements.input.value = result;
 			addHistoryEntry(expression, result);
 			saveHistory(expression, result);
@@ -410,10 +408,18 @@ var Mathulator = (function(window, document) {
 		var precision = getData('precision');
 		
 		if(typeof precision === 'number') {
-			console.log(precision);
 			elements.inputPrecision.value = precision;
 			onPrecisionChange();
 		}
+		
+		var sciNotation = getData('sci-notation');
+		
+		if(typeof sciNotation !== 'boolean') {
+			sciNotation = true;
+		}
+		
+		elements.inputSciNotation.checked = sciNotation;
+		onSciNotationChange();
 	}
 
 	function onCloseSidebarClick(event) {
@@ -432,7 +438,7 @@ var Mathulator = (function(window, document) {
 	 * @param element - An element object
 	 * @param {string} message - The message to display
 	 */
-	function showTooltip(element, message) {
+	function showTooltip(element, message, placement) {
 		if(element.tooltipTimeout) {
 			clearTimeout(element.tooltipTimeout);
 		}
@@ -446,10 +452,15 @@ var Mathulator = (function(window, document) {
 				.position(element)
 				.show();
 		} else {
+			if(typeof placement !== 'string') {
+				placement = 'top';
+			}
+			
 			element.tooltipInstance = new Tooltips.Tooltip(message)
 				.type('error')
 				.effect('fade')
 				.position(element)
+				.place(placement)
 				.show(element);
 		}
 
@@ -462,19 +473,36 @@ var Mathulator = (function(window, document) {
 	function onPrecisionChange() {
 		var precision = +elements.inputPrecision.value;
 		
-		if(precision > 1024) {
-			alert('Precision exceeds maximum of 1024');
-			elements.inputPrecision.value = 1024;
-			precision = 1024;
+		if(precision > 5000) {
+			alert('Precision exceeds maximum of 5000');
+			elements.inputPrecision.value = 5000;
+			precision = 5000;
 		}
 		
 		Decimal.config({ precision: precision });
 		
 		setData('precision', precision);
 		
-		showTooltip(elements.inputPrecision, 'Precision updated');
-		
 		console.log('Precision updated to ' + precision);
+	}
+	
+	function onSciNotationChange() {
+		var sciNotation = elements.inputSciNotation.checked;
+		
+		setData('sci-notation', sciNotation);
+		
+		ep.settings.sciNotation = sciNotation;
+		
+		console.log('Sci-notation ' + (sciNotation ? 'on' : 'off'));
+	}
+	
+	function onFormSubmit(event) {
+		event.preventDefault();
+		
+		onPrecisionChange();
+		onSciNotationChange();
+		
+		showTooltip(elements.settingsButton, 'Settings Saved', 'left');
 	}
 
 	function cacheElements() {
@@ -492,7 +520,11 @@ var Mathulator = (function(window, document) {
 		elements.clearVariables = elements.sidebar.querySelector('.clear-variables');
 		elements.clearMacros = elements.sidebar.querySelector('.clear-macros');
 		elements.closeSidebar = elements.sidebar.querySelector('.close-history');
+		elements.settingsButton = elements.sidebar.querySelector('[data-remodal-target="settings"]');
+		elements.settingsForm = document.getElementById('settings-form');
 		elements.inputPrecision = document.getElementById('input-precision');
+		elements.inputSciNotation = document.getElementById('input-sci-notation');
+		elements.saveButton = elements.settingsForm.querySelector('[data-remodal-action="confirm"]');
 	}
 
 	function setFixedListeners() {
@@ -506,7 +538,8 @@ var Mathulator = (function(window, document) {
 		elements.clearVariables.addEventListener('click', clearVariables);
 
 		elements.input.addEventListener('keyup', onInputKeyup);
-		elements.inputPrecision.addEventListener('change', onPrecisionChange);
+		console.log(elements.settingsForm);
+		elements.saveButton.addEventListener('click', onFormSubmit);
 
 		ep.on('variable-set', onVariableSet);
 		ep.on('macro-set', onMacroSet);

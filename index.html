@@ -124,10 +124,24 @@
 		<div class="remodal" data-remodal-id="settings" id="settings">
 			<button data-remodal-action="close" class="remodal-close"></button>
 			<h2 class="no-select">Settings</h2>
-			<label>
-				Precision (1024 max)<br />
-				<input type="number" name="precision" id="input-precision" value="20"  min="1" max="1024" />
-			</label>
+			
+			<form id="settings-form">
+				<label>
+					Precision (8192 max)<br />
+					<input type="number" name="precision" id="input-precision" value="20"  min="1" max="8192" />
+				</label>
+				
+				<br /><br />
+				
+				<label>
+					Scientific Notation<br />
+					<input type="checkbox" id="input-sci-notation" />
+				</label>
+				
+				<br /><br />
+				
+				<button type="submit" data-remodal-action="confirm" class="remodal-confirm">Save</button>
+			</form>
 		</div>
 
 		<!-- jQuery is just for remodal -->

@@ -187,6 +187,10 @@ function ExpressionParser(variables, macros) {
 	}
 
 	this.readOnlyVariables = ['pi', 'PI', 'e', 'E', 'randf'];
+	
+	this.settings = {
+		sciNotation: true	
+	};
 };
 
 ExpressionParser.prototype.on = function(type, callback) {
@@ -372,7 +376,7 @@ ExpressionParser.prototype.parse = function(expression) {
 		this.setVariable(tokens[0][1], value);
 	}
 
-	return value;
+	return this.settings.sciNotation ? value : value.toFixed();
 };
 
 /* Parse tokens */
