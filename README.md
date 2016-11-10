@@ -6,7 +6,7 @@ A handy expression calculator with support for variables, custom macros and arbi
 
 ## Install (cli)
 
-### Step 1: Install Node
+### Step 1: Install Node (use Node 6, electron doesn't like Node 7).
 See: https://nodejs.org/en/download/
 
 ### Step 2: Clone
