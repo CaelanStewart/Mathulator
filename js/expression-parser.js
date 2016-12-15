@@ -349,31 +349,13 @@ ExpressionParser.prototype.parse = function(expression) {
 	var tokensLength = tokens.length,
 		iter,
 		value = null,
-		last_number = null,
-		flag_assignment = false;
+		last_number = null;
 
 	for(iter = 0; iter < tokensLength; ++iter) {
 		// Get the value
 		if(tokens[iter][0] === 'number') {
 			value = tokens[iter][1];
 		}
-
-		if(tokens[iter][0] === 'assignment') {
-			if(
-				iter - 1 === 0 &&                   // Check there is a keyword previous
-				iter + 1 < tokensLength &&          // Check there is a value to set next
-
-				tokens[iter - 1][0] === 'keyword'
-			) {
-				flag_assignment = true;
-			} else {
-				throw new Error('Unexpected assignment');
-			}
-		}
-	}
-
-	if(flag_assignment) {
-		this.setVariable(tokens[0][1], value);
 	}
 
 	return this.settings.sciNotation ? value : value.toFixed();
@@ -393,6 +375,38 @@ ExpressionParser.prototype.parseTokens = function(tkns) {
 	tokens = this.parseNegatives(tokens);
 	tokens = this.parseFunctions(tokens);
 	tokens = this.parseOperations(tokens);
+	tokens = this.parseAssignments(tokens);
+
+	return tokens;
+};
+
+ExpressionParser.prototype.parseAssignments = function(tkns) {
+	'use strict';
+
+	var tokens = tkns,
+		tokensLength = tokens.length,
+		bracketDepth = 0,
+		bracketIndex = 0,
+		iter;
+
+	for(iter = tokensLength - 1; iter >= 0; --iter) {
+		if(
+			tokens[iter][0] === 'keyword' &&
+			iter + 2 < tokensLength &&
+			tokens[iter + 1][0] === 'assignment' &&
+			tokens[iter + 2][0] === 'number'
+
+		) {
+			let varName = tokens[iter][1],
+				value = tokens[iter + 2][1];
+
+			this.setVariable(varName, value);
+
+			tokensLength -= tokens.splice(iter, 2).length;
+		}
+	}
+
+	console.log(tokens);
 
 	return tokens;
 };
