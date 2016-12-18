@@ -114,6 +114,7 @@ Mathulator supports a variety of functions. Here is a good ol' simple list.
 - **`atan2(y,x)`** - Returns the arctangent of the quotient of its arguments.
 - **`cbrt(x)`** - Returns the cube root of a number.
 - **`ceil(x[,y])`** - Returns the smallest integer greater than or equal to a number, or a multiple of `y`.
+- **`cmp(a,b)`** - Compares a to be, returns `-1` if `a` is < `b`, `0` if `a` == `b` or `1` if `a` > `b`.
 - **`cos(x)`** - Returns the cosine of a number.
 - **`cosh(x)`** - Returns the hyperbolic cosine of a number.
 - **`deg(r)`** - Returns `r` radians in degrees.

@@ -133,6 +133,8 @@ var Mathulator = (function(window, document) {
 		button.onclick = onGetAnswerClick;
 
 		div.appendChild(button);
+		
+		//console.log(div, historyEntries[historyEntries.length - 1]);
 
 		if(!historyEntries.length) {
 			elements.historyEntryContainer.appendChild(div);
@@ -256,6 +258,8 @@ var Mathulator = (function(window, document) {
 		historyEntries.forEach(function(entry) {
 			entry.parentNode.removeChild(entry);
 		});
+		
+		historyEntries = [ ];
 	}
 
 	function clearVariables() {
@@ -277,14 +281,19 @@ var Mathulator = (function(window, document) {
 	function evaluate() {
 		var expression = elements.input.value,
 			result;
+			
+		//result = ep.parse(expression);
 		
 		try {
 			result = ep.parse(expression);
 			elements.input.value = result;
-			addHistoryEntry(expression, result);
-			saveHistory(expression, result);
 		} catch(e) {
 			elements.input.value = e.message;
+		}
+		
+		if(result) {
+			addHistoryEntry(expression, result);
+			saveHistory(expression, result);
 		}
 	}
 
@@ -538,7 +547,6 @@ var Mathulator = (function(window, document) {
 		elements.clearVariables.addEventListener('click', clearVariables);
 
 		elements.input.addEventListener('keyup', onInputKeyup);
-		console.log(elements.settingsForm);
 		elements.saveButton.addEventListener('click', onFormSubmit);
 
 		ep.on('variable-set', onVariableSet);

@@ -66,6 +66,9 @@ const MathFunctions = {
 	},
 	sign: function(n) {
 		return new Decimal(n.s);
+	},
+	cmp: function(a, b) {
+		return new Decimal(a.cmp(b));
 	}
 },
 allowedMathFunctions = [
@@ -405,8 +408,6 @@ ExpressionParser.prototype.parseAssignments = function(tkns) {
 			tokensLength -= tokens.splice(iter, 2).length;
 		}
 	}
-
-	console.log(tokens);
 
 	return tokens;
 };
@@ -942,10 +943,13 @@ ExpressionParser.prototype.tokenize = function(expr) {
 
 		if(flag_keyword) {
 			// We've reached the end of the keyword
-			if(!char_isAlpha) {
+			if(!char_isAlpha && !char_isNumeric) {
 				flag_keyword = false;
 				tokens.push(['keyword', buffer]);
 				buffer = '';
+			} else {
+				buffer += char;
+				continue;
 			}
 		}
 

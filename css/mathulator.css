@@ -17,7 +17,7 @@
     position: fixed;
 	top: 0;
 	padding: 10px 0 0 10px;
-	background-color: #666666;
+	background-color: #333333;
 	border: none;
 	margin: 0;
 	z-index: 0;
@@ -30,9 +30,9 @@
 }
 
 .sidebar-closed .mathulator {
-	width: -webkit-calc(100% - 50px);
-	width: -moz-calc(100% - 50px);
-	width: calc(100% - 50px);
+	width: -webkit-calc(100% - 53px);
+	width: -moz-calc(100% - 53px);
+	width: calc(100% - 53px);
 }
 
 #mathulator-sidebar {
@@ -41,9 +41,9 @@
 	right: 0;
 	width: 400px;
 	height: 100%;
-	border-left: 2px solid #444444;
+	border-left: 3px solid #2A2A2A;
 	z-index: 0;
-	background-color: #666666;
+	background-color: #333333;
 	padding: 0;
 	-webkit-transition: right .4s;
 	-moz-transition: right .4s;
@@ -53,7 +53,7 @@
 }
 
 .sidebar-closed #mathulator-sidebar {
-	right: -350px;
+	right: -347px;
 }
 
 #mathulator-sidebar .toolbar {
@@ -71,7 +71,7 @@
 	right: 0;
 	top: 0;
 	height: 100%;
-	border-left: 2px solid #444444;
+	border-left: 3px solid #2A2A2A;
 }
 
 #mathulator-sidebar h2 {
@@ -96,10 +96,11 @@
 	word-wrap: none;
 	width: 100%;
 	overflow: hidden;
-	-webkit-transition: background-color .1s;
+	
+	/*-webkit-transition: background-color .1s;
 	-moz-transition: background-color .1s;
 	-ms-transition: background-color .1s;
-	transition: background-color .1s;
+	transition: background-color .1s;*/
 }
 
 #mathulator-sidebar .entry:before {
@@ -110,12 +111,13 @@
 	right: 0;
 	width: 80px;
 	height: 100%;
-	background-color: #777777;
-	-webkit-transition: opacity .1s;
+	background-color: #00BA00;
+	opacity: 0.0;
+	
+	/*-webkit-transition: opacity .1s;
 	-moz-transition: opacity .1s;
 	-ms-transition: opacity .1s;
-	transition: opacity .1s;
-	opacity: 0.0;
+	transition: opacity .1s;*/
 }
 
 #mathulator-sidebar .entry:after {
@@ -127,26 +129,26 @@
 	width: 80px;
 	height: 100%;
 	z-index: 1;
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#666666+0,777777+100&0+0,1+96 */
-	background: -moz-linear-gradient(left,  rgba(102,102,102,0) 0%, rgba(118,118,118,1) 96%, rgba(119,119,119,1) 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(left,  rgba(102,102,102,0) 0%,rgba(118,118,118,1) 96%,rgba(119,119,119,1) 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to right,  rgba(102,102,102,0) 0%,rgba(118,118,118,1) 96%,rgba(119,119,119,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00666666', endColorstr='#777777',GradientType=1 ); /* IE6-9 */
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#666666+0,00ba00+100&0+0,1+96 */
+	background: -moz-linear-gradient(left,  rgba(102,102,102,0) 0%, rgba(4,183,4,1) 96%, rgba(0,186,0,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  rgba(102,102,102,0) 0%,rgba(4,183,4,1) 96%,rgba(0,186,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right,  rgba(102,102,102,0) 0%,rgba(4,183,4,1) 96%,rgba(0,186,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00666666', endColorstr='#00ba00',GradientType=1 ); /* IE6-9 */
 
+	opacity: 0.0;
 
-	-webkit-transition: opacity .1s;
+	/*-webkit-transition: opacity .1s;
 	-moz-transition: opacity .1s;
 	-ms-transition: opacity .1s;
-	transition: opacity .1s;
-	opacity: 0.0;
+	transition: opacity .1s;*/
 }
 
 #mathulator-sidebar .entry:hover {
-	background-color: #777777;
+	background-color: #00BA00;
 }
 
 #mathulator-sidebar .entry:active {
-	background-color: rgba(0, 0, 0, 0.15);
+	background-color: #009c00;
 }
 
 #mathulator-sidebar .entry .entry-button {
@@ -164,22 +166,20 @@
 	font-family: 'Jaldi';
 	text-transform: uppercase;
 	background-color: rgba(0, 0, 0, 0.3);
-	border: none;
+	border: 2px solid rgba(0, 0, 0, 0.25);
 	color: white;
-
+	z-index: 2;
 	line-height: -webkit-calc(100% - 10px);
 	line-height: -moz-calc(100% - 10px);
 	line-height: -ms-calc(100% - 10px);
 	line-height: calc(100% - 10px);
-	border: 2px solid rgba(0, 0, 0, 0.25);
+	
+	opacity: 0.0;
 
-	z-index: 2;
-
-	-webkit-transition: opacity .1s;
+	/*-webkit-transition: opacity .1s;
 	-moz-transition: opacity .1s;
 	-ms-transition: opacity .1s;
-	transition: opacity .1s;
-	opacity: 0.0;
+	transition: opacity .1s;*/
 }
 
 #mathulator-sidebar .entry:hover .entry-button,
@@ -189,30 +189,31 @@
 }
 
 #mathulator-sidebar .entry .entry-button:hover {
-	border: 2px solid rgba(255, 255, 255, 0.5);
+	border: 2px solid rgba(255, 255, 255, 0.75);
 }
 
 #mathulator-sidebar .toolbar .button {
 	width: 50px;
 	height: 50px;
 	border: none;
-	border-bottom: 2px solid #444444;
+	border-bottom: 3px solid #2A2A2A;
 	background-color: transparent;
 	color: rgba(255, 255, 255, 0.5);
 	font-size: 20px;
 	cursor: pointer;
 	display: block;
 	text-align: center;
-	line-height: 50px;
+	line-height: 44px;
 }
 
 #mathulator-sidebar .toolbar .button:hover {
 	background-color: rgba(255, 255, 255, 0.15);
 	color: rgba(255, 255, 255, 1.0);
+	border-bottom: 3px solid #2A2A2A;
 }
 
-#mathulator-sidebar .toolbar .button:active {
-	background-color: rgba(0, 0, 0, 0.15);
+#mathulator-sidebar .toolbar .button:hover:active {
+	background-color: #00BA00;
 }
 
 .sidebar-closed #mathulator-sidebar .toolbar .close-history i:before {
@@ -255,14 +256,14 @@
 	font-size: calc(2.5vw);
 	font-family: Courier, monospace;
 	-webkit-appearance: none;
-	background-color: #444444;
-	border: 1px solid rgba(0, 0, 0, 0.5);
+	background-color: rgba(255, 255, 255, 0.025);
+	border: 3px solid rgba(0, 0, 0, 0.25);
 	color: #00FF00;
 	outline: none;
 }
 
 .mathulator .display input:focus {
-	border: 1px solid rgba(0, 0, 0, 0.25);
+	border-color: #00BA00;
 }
 
 .mathulator .buttons {
@@ -291,11 +292,10 @@
 	line-height: 1;
 	font-weight: 600;
 	font-family: Courier, monospace;
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	background-color: #555555;
-	color: #CCCCCC;
-	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.65);
-	box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.05), 1px 1px 0 rgba(0, 0, 0, 0.05);
+	border: 3px solid rgba(0, 0, 0, 0.25);
+	background-color: rgba(255, 255, 255, 0.025);
+	color: #AAA;
+	/*box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.05), 1px 1px 0 rgba(0, 0, 0, 0.05);*/
 	font-size: calc(6vh);
 }
 
@@ -309,15 +309,19 @@
 
 .mathulator .buttons .row .button:hover {
 	background-color: #444444;
-	border: 1px solid rgba(0, 0, 0, 0.25);
-	box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), 1px 1px 0 rgba(0, 0, 0, 0.1);
+	border-color: rgba(0, 0, 0, 0.4);
+	/*border: 1px solid rgba(0, 0, 0, 0.25);*/
+	/*box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), 1px 1px 0 rgba(0, 0, 0, 0.1);*/
 }
 
 .mathulator .buttons .row .button:hover:active {
-	background-color: #444444;
-	box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.15), inset 1px 1px 0 rgba(0, 0, 0, 0.15);
-	padding-top: 2px;
-	padding-left: 2px;
+	background-color: #00BA00;
+	color: #FFFFFF;
+	/*box-shadow: -2px -2px 0 rgba(255, 255, 255, 0.1), inset 1px 1px 0 rgba(0, 0, 0, 0.15);*/
+}
+
+.mathulator .buttons .row .button:focus {
+	border-color: #00BA00;
 }
 
 .remodal-wrapper {
@@ -386,14 +390,14 @@
 .tabs .tab-bar {
 	width: 100%;
 	height: 50px;
-	border-bottom: 2px solid #444444;
+	border-bottom: 3px solid rgba(0, 0, 0, 0.25);
 	position: absolute;
 	top: 0;
 	left: 0;
 }
 
 .tabs .tab-bar .tab {
-	height: 48px;
+	height: 47px;
 	line-height: 48px;
 	font-family: 'Arvo';
 	color: white;
@@ -401,15 +405,21 @@
 	text-transform: uppercase;
 	padding: 0 15px;
 	float: left;
-	border-right: 2px solid #444444;
+	border-right: 3px solid #2A2A2A;
 	cursor: normal;
 	color: rgba(255, 255, 255, 0.5);
 }
 
-.tabs .tab-bar .tab:hover,
-.tabs .tab-bar .tab.active {
+.tabs .tab-bar .tab:hover {
 	color: rgba(255, 255, 255, 1);
-	background-color: rgba(255, 255, 255, 0.15);
+	background-color: #444;
+	border-right: 3px solid #2A2A2A;
+}
+
+.tabs .tab-bar .tab.active {
+	color: #00BA00;
+	background-color: #444444;
+	border-right: 3px solid #2A2A2A;
 }
 
 .tabs .tab-panes {
@@ -433,33 +443,42 @@
 }
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar              {
-	width: 20px;
+	width: 0px;
 	height: 100%;
 }
 
+.tabs .tab-panes .tab-pane:hover::-webkit-scrollbar              {
+	width: 20px;
+}
+
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-button       {
-	border: 2px solid #444444;
-	background-color: rgba(255, 255, 255, 0.15);
 	display: none;
 }
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-track        {
-	background-color: #444444;
+	background-color: #444;
+	border-left: 3px solid #2A2A3A;
 }
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-thumb        {
-	background-color: #666666;
-	border-left: 2px solid #444444;
+	background-color: #555;
+	border-left: 3px solid #2A2A3A;
 }
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-thumb:hover {
-	background-color: #777777;
+	background-color: #666;
 }
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-thumb:active {
-	background-color: #888888;
+	background-color: #00BA00;
 }
 
 .no-select {
 	-webkit-user-select: none;
+}
+
+.tooltip {
+	background-color: #FFFFFF !important;
+	color: #444444;
+	text-shadow: none;
 }

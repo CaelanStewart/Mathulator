@@ -74,7 +74,7 @@ var Tabs = function(cntr) {
 		let tabsByName = elements.tabsByName;
 
 		for(name in tabsByName)
-			tabsByName[name].addEventListener('click', onTabClick);
+			tabsByName[name].addEventListener('mousedown', onTabClick);
 	}
 
 	cacheElements();
