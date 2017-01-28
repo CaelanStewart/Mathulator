@@ -57,8 +57,8 @@ function createWindow () {
 				{
 					role: 'selectall'
 				}
-				
-				//*
+
+				/*
 				,
 				{
 					label: 'Toggle Developer Tools',
