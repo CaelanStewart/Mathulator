@@ -282,10 +282,10 @@ var Mathulator = (function(window, document) {
 		var expression = elements.input.value,
 			result;
 
-		result = ep.parse(expression);
+		//result = ep.parse(expression);
 
 		try {
-			//result = ep.parse(expression);
+			result = ep.parse(expression);
 			elements.input.value = result;
 		} catch(e) {
 			elements.input.value = e.message;

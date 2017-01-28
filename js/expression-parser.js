@@ -182,9 +182,6 @@ function ExpressionParser(variables, macros) {
 		this.macros = { };
 	}
 
-	this.variableSetCallbacks = { };
-	this.macroSetCallbacks = { };
-
 	this.eventCallbacks = {
 		'variable-set': [ ],
 		'macro-set': [ ]
