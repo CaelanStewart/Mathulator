@@ -100,10 +100,11 @@
 		<div class="remodal" data-remodal-id="available-math-functions">
 			<button data-remodal-action="close" class="remodal-close"></button>
 			<h2 class="no-select">Available Math Functions</h2>
-			<pre>abs, acos, acosh, asin, asinh, atan, atanh, atan2, cbrt, ceil, cmp, cos, cosh, deg, exp, fact, floor, fround, hypot, log, log10, log2, max, min, pow, rad, rand, randf, round, sign, sin, sinh, sqrt, tan, tanh</pre>
-			<br />
-			<h2 class="no-select">Usage Examples</h2>
-			<pre class="big">
+			<!--<pre>abs, acos, acosh, asin, asinh, atan, atanh, atan2, cbrt, ceil, cmp, cos, cosh, deg, exp, fact, floor, fround, hypot, log, log10, log2, max, min, pow, rad, rand, randf, round, sign, sin, sinh, sqrt, tan, tanh</pre>-->
+			<pre>abs<span class="no-select">, </span>acos<span class="no-select">, </span>acosh<span class="no-select">, </span>asin<span class="no-select">, </span>asinh<span class="no-select">, </span>atan<span class="no-select">, </span>atanh<span class="no-select">, </span>atan2<span class="no-select">, </span>cbrt<span class="no-select">, </span>ceil<span class="no-select">, </span>cmp<span class="no-select">, </span>cos<span class="no-select">, </span>cosh<span class="no-select">, </span>deg<span class="no-select">, </span>exp<span class="no-select">, </span>fact<span class="no-select">, </span>floor<span class="no-select">, </span>fround<span class="no-select">, </span>hypot<span class="no-select">, </span>log<span class="no-select">, </span>log10<span class="no-select">, </span>log2<span class="no-select">, </span>max<span class="no-select">, </span>min<span class="no-select">, </span>pow<span class="no-select">, </span>rad<span class="no-select">, </span>rand<span class="no-select">, </span>randf<span class="no-select">, </span>round<span class="no-select">, </span>sign<span class="no-select">, </span>sin<span class="no-select">, </span>sinh<span class="no-select">, </span>sqrt<span class="no-select">, </span>tan<span class="no-select">, </span>tanh</pre><span class="no-select">
+			<br class="no-select" />
+			</span><h2 class="no-select">Usage Examples</h2><span class="no-select">
+			</span><pre class="big">
 				<b>min(5, 8, 240, 3e-6)</b><span class="no-select"><br />
 				</span><span class="no-select">= </span>0.000003<span class="no-select"><br /><br />
 
@@ -123,24 +124,25 @@
 
 		<div class="remodal" data-remodal-id="settings" id="settings">
 			<button data-remodal-action="close" class="remodal-close"></button>
-			<h2 class="no-select">Settings</h2>
-			
+
 			<form id="settings-form">
-				<label>
-					Precision (8192 max)<br />
-					<input type="number" name="precision" id="input-precision" value="20"  min="1" max="8192" />
-				</label>
-				
-				<br /><br />
-				
-				<label>
-					Scientific Notation<br />
-					<input type="checkbox" id="input-sci-notation" />
-				</label>
-				
-				<br /><br />
-				
-				<button type="submit" data-remodal-action="confirm" class="remodal-confirm">Save</button>
+				<h2 class="no-select">Settings</h2>
+
+				<div class="option">
+					<label for="input-precision">Precision (5000 max)</label><br />
+					<input type="text" name="precision" id="input-precision" value="20" />
+				</div>
+
+				<div class="option">
+					<label>
+						Scientific Notation<br />
+						<input type="checkbox" id="input-sci-notation" />
+					</label>
+				</div>
+
+				<div class="remodal-buttons">
+					<button type="submit" data-remodal-action="confirm" class="remodal-confirm">Save</button>
+				</div>
 			</form>
 		</div>
 
