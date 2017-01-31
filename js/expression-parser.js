@@ -195,11 +195,7 @@ function ExpressionParser(variables, macros) {
 		'macro-set': [ ]
 	}
 
-	this.readOnlyVariables = [ ];
-
-	for(var key in this.variables) {
-		this.readOnlyVariables.push(key);
-	}
+	this.readOnlyVariables = ['pi', 'PI', 'tau', 'TAU', 'e', 'E', 'randf'];
 
 	this.settings = {
 		sciNotation: true
