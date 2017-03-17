@@ -872,7 +872,7 @@ ExpressionParser.prototype.parseOperations = function(tkns) {
 	'use strict';
 
 	// Order of operations
-	var operators = ['^', '*', '/', '+', '-'],
+	var operators = ['^', '*', '/', '%', '+', '-'],
 		tokens = tkns,
 		self = this;
 
