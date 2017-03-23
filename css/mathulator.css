@@ -41,7 +41,7 @@
 	right: 0;
 	width: 400px;
 	height: 100%;
-	border-left: 3px solid #2A2A2A;
+	border-left: 3px solid #262626;
 	z-index: 0;
 	background-color: #333333;
 	padding: 0;
@@ -71,7 +71,7 @@
 	right: 0;
 	top: 0;
 	height: 100%;
-	border-left: 3px solid #2A2A2A;
+	border-left: 3px solid #262626;
 }
 
 #mathulator-sidebar h2 {
@@ -196,7 +196,7 @@
 	width: 50px;
 	height: 50px;
 	border: none;
-	border-bottom: 3px solid #2A2A2A;
+	border-bottom: 3px solid #262626;
 	background-color: transparent;
 	color: rgba(255, 255, 255, 0.5);
 	font-size: 20px;
@@ -209,7 +209,7 @@
 #mathulator-sidebar .toolbar .button:hover {
 	background-color: rgba(255, 255, 255, 0.15);
 	color: rgba(255, 255, 255, 1.0);
-	border-bottom: 3px solid #2A2A2A;
+	border-bottom: 3px solid #262626;
 }
 
 #mathulator-sidebar .toolbar .button:hover:active {
@@ -405,7 +405,7 @@
 	text-transform: uppercase;
 	padding: 0 15px;
 	float: left;
-	border-right: 3px solid #2A2A2A;
+	border-right: 3px solid #262626;
 	cursor: normal;
 	color: rgba(255, 255, 255, 0.5);
 }
@@ -413,13 +413,13 @@
 .tabs .tab-bar .tab:hover {
 	color: rgba(255, 255, 255, 1);
 	background-color: #444;
-	border-right: 3px solid #2A2A2A;
+	border-right: 3px solid #262626;
 }
 
 .tabs .tab-bar .tab.active {
 	color: #00BA00;
 	background-color: #444444;
-	border-right: 3px solid #2A2A2A;
+	border-right: 3px solid #262626;
 }
 
 .tabs .tab-panes {
@@ -457,12 +457,12 @@
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-track        {
 	background-color: #444;
-	border-left: 3px solid #2A2A3A;
+	border-left: 3px solid #262626;
 }
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-thumb        {
 	background-color: #555;
-	border-left: 3px solid #2A2A3A;
+	border-left: 3px solid #262626;
 }
 
 .tabs .tab-panes .tab-pane::-webkit-scrollbar-thumb:hover {
