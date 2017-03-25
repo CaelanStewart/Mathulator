@@ -965,20 +965,26 @@ ExpressionParser.prototype.parseOperations = function(tkns) {
 	'use strict';
 
 	// Order of operations
-	var operators = ['^', '*', '/', '%', '+', '-'],
+	var operators = [
+			['^'],
+			['*', '/', '%'],
+			['+', '-'],
+		],
 		tokens = tkns,
-		self = this;
+		self = this,
+		tokensLength = tokens.length,
+		iter;
 
 	operators.forEach(operator => tokens = self.parseOperator(tokens, operator));
 
 	return tokens;
 };
 
-ExpressionParser.prototype.parseOperator = function(tkns, oprtr) {
+ExpressionParser.prototype.parseOperator = function(tkns, oprtrArr) {
 	'use strict';
 
 	var tokens = tkns,
-		operator = oprtr,
+		operatorArray = oprtrArr,
 		tokensLength = tokens.length,
 		iter;
 
@@ -987,7 +993,7 @@ ExpressionParser.prototype.parseOperator = function(tkns, oprtr) {
 			token_type = token[0],
 			token_value = token[1];
 
-		if(token_type === 'operator' && token_value === operator) {
+		if(token_type === 'operator' && operatorArray.indexOf(token_value) !== -1) {
 			if(
 				iter - 1 >= 0 &&                        // Check there is a previous token
 				iter + 1 < tokensLength &&              // Check there is a next token
