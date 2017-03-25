@@ -118,21 +118,27 @@ var Mathulator = (function(window, document) {
 
 	function addHistoryEntry(expression, answer) {
 		var div = document.createElement('div'),
-			button = document.createElement('button'),
-			replacedExpression = expression.replace(/\s+/g,'');
+			button,
+			replacedExpression = expression.replace(/\s+/g,' ');
 
 		div.classList.add('entry');
 		div.textContent = replacedExpression;
 		div.cachedExpression = replacedExpression;
 		div.onclick = onHistoryEntryClick;
 
-		button.classList.add('entry-button');
-		button.textContent = 'Answer';
-		button.type = 'button';
-		button.onmouseenter = button.onmouseleave = onGetAnswerMouseEvent;
-		button.onclick = onGetAnswerClick;
-
-		div.appendChild(button);
+		if(answer !== null) {
+			button = document.createElement('button');
+			
+			button.classList.add('entry-button');
+			button.textContent = 'Answer';
+			button.type = 'button';
+			button.onmouseenter = button.onmouseleave = onGetAnswerMouseEvent;
+			button.onclick = onGetAnswerClick;
+			
+			div.appendChild(button);
+			
+			button.cachedAnswer = answer;
+		}
 
 		//console.log(div, historyEntries[historyEntries.length - 1]);
 
@@ -143,8 +149,6 @@ var Mathulator = (function(window, document) {
 		}
 
 		historyEntries.push(div);
-
-		button.cachedAnswer = answer;
 	}
 
 	function addVariableEntry(name, value) {
@@ -288,13 +292,12 @@ var Mathulator = (function(window, document) {
 			result = ep.parse(expression);
 			elements.input.value = result;
 		} catch(e) {
+			result = null;
 			elements.input.value = e.message;
 		}
-
-		if(result) {
-			addHistoryEntry(expression, result);
-			saveHistory(expression, result);
-		}
+		
+		addHistoryEntry(expression, result);
+		saveHistory(expression, result);
 	}
 
 	function inputCharacter(character) {
@@ -350,7 +353,7 @@ var Mathulator = (function(window, document) {
 		for(iter = 0; iter < len; ++iter) {
 			let [expression, value] = historyArr[iter];
 
-			if(!value && value !== 0 && value !== '0')
+			if(!value && value !== null && value !== 0 && value !== '0')
 				continue;
 
 			addHistoryEntry(expression, value);

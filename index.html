@@ -20,39 +20,39 @@
 				</div>
 				<div class="buttons no-select">
 					<div class="row">
-						<button class="button function" type="button" data-action="inputCharacter" data-value="pi">pi</button>
 						<button class="button function" type="button" data-action="inputCharacter" data-value="sin ">sin</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="cos ">cos</button>
 						<button class="button" type="button" data-action="clearScreen" class="button double">C</button>
 						<button class="button" type="button" data-action="backspace">&lt;</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="^">^</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="/">/</button>
 					</div>
 					<div class="row">
-						<button class="button function" type="button" data-action="inputCharacter" data-value="floor ">floor</button>
-						<button class="button function" type="button" data-action="inputCharacter" data-value="cos ">cos</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="sinh ">sinh</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="cosh ">cosh</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="7">7</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="8">8</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="9">9</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="*">*</button>
 					</div>
 					<div class="row">
-						<button class="button function" type="button" data-action="inputCharacter" data-value="ceil ">ceil</button>
 						<button class="button function" type="button" data-action="inputCharacter" data-value="tan ">tan</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="tanh ">tanh</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="4">4</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="5">5</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="6">6</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="-">-</button>
 					</div>
 					<div class="row">
-						<button class="button function" type="button" data-action="inputCharacter" data-value="round ">round</button>
 						<button class="button function" type="button" data-action="inputCharacter" data-value="sqrt ">sqrt</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="cbrt ">cbrt</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="1">1</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="2">2</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="3">3</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="+">+</button>
 					</div>
 					<div class="row">
-						<button class="button function" type="button" data-action="inputCharacter" data-value="exp ">exp</button>
+						<button class="button function" type="button" data-action="inputCharacter" data-value="log ">log</button>
 						<button class="button function" type="button" data-action="inputCharacter" data-value="fact ">fact</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value="0">0</button>
 						<button class="button" type="button" data-action="inputCharacter" data-value=".">.</button>
@@ -129,7 +129,7 @@
 				<h2 class="no-select">Settings</h2>
 
 				<div class="option">
-					<label for="input-precision">Precision (5000 max)</label><br />
+					<label for="input-precision">Significant Digits (5000 max)</label><br />
 					<input type="text" name="precision" id="input-precision" value="20" />
 				</div>
 
@@ -141,6 +141,7 @@
 				</div>
 
 				<div class="remodal-buttons">
+					<button type="submit" data-remodal-action="close" class="remodal-confirm">Cancel</button>
 					<button type="submit" data-remodal-action="confirm" class="remodal-confirm">Save</button>
 				</div>
 			</form>

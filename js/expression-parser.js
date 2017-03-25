@@ -167,21 +167,29 @@ function getListPrimitiveArray(itms) {
 	return primitives;
 }
 
+/**
+ * ExpressionParser - A JavaScript utility for parsing and evaluating expressions
+ *
+ * @author Caelan Stewart
+ */
 function ExpressionParser(variables, macros) {
 	'use strict';
-
-	if(Object.prototype.toString.call(variables) === '[object Object]') {
-		this.variables = variables
-	} else {
-		this.variables = {
+	
+	var defaultVariables = {
 			pi: new Decimal(PI_5000),
 			PI: new Decimal(PI_5000),
 			tau: new Decimal(TAU_5000),
 			TAU: new Decimal(TAU_5000),
 			e: new Decimal(Math.E),
 			E: new Decimal(Math.E),
-			randf: () => new Decimal(Math.random())
+			randf: () => new Decimal(Math.random()),
+			NaN: Decimal.asin(2)
 		};
+
+	if(Object.prototype.toString.call(variables) === '[object Object]') {
+		this.variables = variables;
+	} else {
+		this.variables = defaultVariables;
 	}
 
 	if(Object.prototype.toString.call(macros) === '[object Object]') {
@@ -195,13 +203,23 @@ function ExpressionParser(variables, macros) {
 		'macro-set': [ ]
 	}
 
-	this.readOnlyVariables = ['pi', 'PI', 'tau', 'TAU', 'e', 'E', 'randf'];
+	// Create an array of the names of the default variables
+	// them being overwritten.
+	this.readOnlyVariables = Object.keys(defaultVariables);
 
 	this.settings = {
 		sciNotation: true
 	};
 };
 
+/**
+ * Sets an event listener. To find any event types, search for
+ * usages of the 'trigger' method.
+ *
+ * @param {string} type - The event type
+ * @param {Function} callback - A callable type to be executed when
+ * the given event type is triggered.
+ */
 ExpressionParser.prototype.on = function(type, callback) {
 	if(typeof type !== 'string') {
 		throw new Error('Event type must be a string');
@@ -218,6 +236,13 @@ ExpressionParser.prototype.on = function(type, callback) {
 	this.eventCallbacks[type].push(callback);
 };
 
+/**
+ * Removes a given event listener
+ *
+ * @param {string} type - The type of event
+ * @param {Function} callback - The exact callback provided when
+ * the event listener was set.
+ */
 ExpressionParser.prototype.off = function(type, callback) {
 	if(typeof type !== 'string') {
 		throw new Error('Event type must be a string');
@@ -247,6 +272,14 @@ ExpressionParser.prototype.off = function(type, callback) {
 	}
 };
 
+/**
+ * Triggers listeners of a given type, and passes arguments to
+ * the callbacks.
+ *
+ * @param {string} type - The type of event
+ * @param {array} argArray - An array of arguments to be passed to
+ * the event listener callback functions.
+ */
 ExpressionParser.prototype.trigger = function(type, argArray) {
 	if(typeof type !== 'string') {
 		throw new Error('Event type must be a string');
@@ -259,7 +292,16 @@ ExpressionParser.prototype.trigger = function(type, argArray) {
 	this.eventCallbacks[type].forEach(callback => callback.apply(null, argArray));
 };
 
-/* Sets a variable */
+/**
+ * Sets a variable of a given name to a given value.
+ *
+ * @param {string} name - The name of the variable
+ * @param {string|Decimal} value - The value of the variable. If a 
+ * string is passed, the string is fed into a new instance of Decimal.
+ * If a Decimal object is passed, it is set as is.
+ * @param {boolean} triggerEvent - Should this setting of a variable
+ * trigger the 'variable-set' event listeners?
+ */
 ExpressionParser.prototype.setVariable = function(name, value, triggerEvent) {
 	'use strict';
 
@@ -278,7 +320,11 @@ ExpressionParser.prototype.setVariable = function(name, value, triggerEvent) {
 	this.variables[name] = value;
 };
 
-/* Gets a variable */
+/**
+ * Gets the value of a variable of a given name.
+ *
+ * @param {string} name - The name of the variable to fetch
+ */
 ExpressionParser.prototype.getVariable = function(name) {
 	'use strict';
 
@@ -299,13 +345,28 @@ ExpressionParser.prototype.getVariable = function(name) {
 	return undefined;
 };
 
-/* Checks if a variable exists */
+/**
+ * Checks to see if a variable of a given name exists.
+ *
+ * @param {string} name - The name of the variable to check for.
+ * 
+ * @return {boolean} - 'true' if the variable exists, 'false' if it does not.
+ */
 ExpressionParser.prototype.isVariable = function(name) {
 	'use strict';
 
 	return this.variables.hasOwnProperty(name);
 };
 
+/**
+ * Sets a macro.
+ *
+ * @param {string} name - The name of the macro
+ * @param {array} argList - An argument list, in the format of an array of tokens.
+ * @param {array} exprTokens - The expression, in the format of an array of tokens.
+ * @param {boolean} triggerEvent - Should the setting of this macro trigger the
+ * 'macro-set' event listener type?
+ */
 ExpressionParser.prototype.setMacro = function(name, argList, exprTkns, triggerEvent) {
 	'use strict';
 
@@ -319,6 +380,17 @@ ExpressionParser.prototype.setMacro = function(name, argList, exprTkns, triggerE
 	}
 };
 
+/**
+ * Runs a macro of a given name, passing a list of arguments
+ * for the expression.
+ *
+ * @param {string} name - The name of the macro to execute.
+ * @param {array} list - An array of values to be used as the
+ * argument list for the execution of the macro's expression.
+ *
+ * @return {array} - Returns the last token left after the
+ * execution of the macro's expression.
+ */
 ExpressionParser.prototype.runMacro = function(name, list) {
 	'use strict';
 
@@ -347,7 +419,14 @@ ExpressionParser.prototype.runMacro = function(name, list) {
 	return [];
 };
 
-/* Parse an expression */
+/**
+ * Parses an expression.
+ *
+ * @param {string} expression - The expression to parse.
+ *
+ * @return {string|Decimal} - A string if scientific notation
+ * is off. An instance of Decimal if it is.
+ */
 ExpressionParser.prototype.parse = function(expression) {
 	'use strict';
 
@@ -370,7 +449,13 @@ ExpressionParser.prototype.parse = function(expression) {
 	return this.settings.sciNotation ? value : value.toFixed();
 };
 
-/* Parse tokens */
+/**
+ * Parses a token stack.
+ *
+ * @param {array} - An array of tokens
+ *
+ * @return {array} - The resulting array of tokens after being evaluated and reduced down to a single token.
+ */
 ExpressionParser.prototype.parseTokens = function(tkns) {
 	'use strict';
 
@@ -385,10 +470,18 @@ ExpressionParser.prototype.parseTokens = function(tkns) {
 	tokens = this.parseFunctions(tokens);
 	tokens = this.parseOperations(tokens);
 	tokens = this.parseAssignments(tokens);
+	
+	// If there is more than one token, an operator was most likely missed
+	if(tokens.length > 1) {
+		throw new Error('Expected operator, got "' + tokens[1][1] + '"');
+	}
 
 	return tokens;
 };
 
+/**
+ * Parses assignments.
+ */
 ExpressionParser.prototype.parseAssignments = function(tkns) {
 	'use strict';
 
