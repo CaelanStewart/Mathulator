@@ -1,5 +1,7 @@
 # Mathulator
-A handy expression calculator with support for variables, custom macros and arbitrary precision numbers.
+A handy expression calculator with support for variables, macros and arbitrary precision numbers.
+
+Mathulator supports a wide range of math functions out of the box, take a look at the bottom of this README for more info.
 
 ![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Mathulator-v1.5-screenshot.png?raw=true)
 ![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.42.png?raw=true)
@@ -24,7 +26,7 @@ Again, in your favourite command line application.
 ```
 
 ## Install (executable)
-Follow the instructions for the cli install, then continue here.
+Follow the instructions for the cli install except Step 3, then continue here.
 
 ### Step 1: Install `electron-packager`
 Open your favourite command line application.
@@ -34,9 +36,9 @@ Open your favourite command line application.
 *Note: you may have to use `sudo` if you get a permissions error.*
 
 ### Step 2: Package Mathulator
-Again, in your favourite command line application.
+Again, in your favourite command line application. Replace 'PLATFORM' with your platform, 'win32', 'darwin' (macOS) etc.
 ```
-> electron-packager ~/Mathulator --platform=darwin --arch=x64
+> electron-packager ~/Mathulator Mathulator --platform=PLATFORM --arch=x64 --no-prune
 ```
 *Note: run `electron-packager --help` for more info on available arguments.*
 
@@ -55,7 +57,7 @@ Irrelevant. Whitespace is mostly ignored.
 ```
 
 ### Parentheses
-You may use parentheses to control the order of operations, otherwise operators are applied in the standard order of operations.
+You may use parentheses to control the order of operations, otherwise operators are applied in the standard order of operations used by most programming languages.
 ```
 > (3*10)^8
 = 656100000000
