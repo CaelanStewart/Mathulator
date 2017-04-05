@@ -4,7 +4,8 @@ A handy expression calculator with support for variables, macros and arbitrary p
 Mathulator supports a wide range of math functions out of the box, take a look at the bottom of this README for more info.
 
 ![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Mathulator-v1.5-screenshot.png?raw=true)
-![Screenshot 1](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.42.png?raw=true)
+![Screenshot 2](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/advanced-mode.png?raw=true)
+![Screenshot 3](https://github.com/CaelanStewart/Mathulator/blob/master/screenshots/Screen%20Shot%202016-11-05%20at%2017.33.42.png?raw=true)
 
 ## Install (cli)
 
