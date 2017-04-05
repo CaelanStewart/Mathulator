@@ -118,35 +118,29 @@ var Mathulator = (function(window, document) {
 
 	function addHistoryEntry(expression, answer) {
 		var div = document.createElement('div'),
-			button,
+			result,
 			replacedExpression = expression.replace(/\s+/g,' ');
 
 		div.classList.add('entry');
 		div.textContent = replacedExpression;
 		div.cachedExpression = replacedExpression;
-		div.onclick = onHistoryEntryClick;
+		//div.onclick = onHistoryEntryClick;
 
 		if(answer !== null) {
-			button = document.createElement('button');
+			result = document.createElement('div');
 			
-			button.classList.add('entry-button');
-			button.textContent = 'Answer';
-			button.type = 'button';
-			button.onmouseenter = button.onmouseleave = onGetAnswerMouseEvent;
-			button.onclick = onGetAnswerClick;
+			result.classList.add('answer');
+			result.textContent = answer;
+			//result.onclick = onGetAnswerClick;
 			
-			div.appendChild(button);
+			div.appendChild(result);
 			
-			button.cachedAnswer = answer;
+			result.cachedAnswer = answer;
 		}
 
 		//console.log(div, historyEntries[historyEntries.length - 1]);
 
-		if(!historyEntries.length) {
-			elements.historyEntryContainer.appendChild(div);
-		} else {
-			elements.historyEntryContainer.insertBefore(div, historyEntries[historyEntries.length - 1]);
-		}
+		elements.historyEntryContainer.appendChild(div);
 
 		historyEntries.push(div);
 	}
@@ -296,10 +290,12 @@ var Mathulator = (function(window, document) {
 			saveHistory(expression, result);
 		} catch(e) {
 			result = null;
-			elements.input.value = e.message;
+			//elements.input.value = e.message;
 			
-			addHistoryEntry(expression, result);
+			addHistoryEntry(expression, e.message);
 		}
+		
+		elements.history.scrollTop = elements.history.scrollHeight;
 	}
 
 	function inputCharacter(character) {
@@ -519,8 +515,8 @@ var Mathulator = (function(window, document) {
 		showTooltip(elements.settingsButton, 'Settings Saved', 'left');
 	}
 	
-	function advancedMode() {
-		window.location.href = 'index.html#advanced';
+	function basicMode() {
+		window.location.href = 'index.html#basic';
 	}
 
 	function cacheElements() {
@@ -530,15 +526,16 @@ var Mathulator = (function(window, document) {
 		elements.buttons = document.getElementsByTagName('button');
 		elements.input = document.getElementsByTagName('input')[0];
 		elements.sidebar = document.getElementById('mathulator-sidebar');
-		elements.history = elements.sidebar.querySelector('.tab-pane[data-name="history"]');
-		elements.historyEntryContainer = elements.history.querySelector('.history-entries');
+		
+		elements.history = elements.mathulator.querySelector('.history');
+		elements.historyEntryContainer = elements.mathulator.querySelector('.history-entries');
 		elements.variableEntryContainer = elements.sidebar.querySelector('.variable-list');
 		elements.macroEntryContainer = elements.sidebar.querySelector('.macro-list');
 		elements.clearHistory = elements.sidebar.querySelector('.clear-history');
 		elements.clearVariables = elements.sidebar.querySelector('.clear-variables');
 		elements.clearMacros = elements.sidebar.querySelector('.clear-macros');
 		elements.closeSidebar = elements.sidebar.querySelector('.close-history');
-		elements.advancedMode = elements.sidebar.querySelector('.advanced-mode');
+		elements.basicMode = elements.sidebar.querySelector('.basic-mode');
 		
 		
 		elements.settingsButton = elements.sidebar.querySelector('[data-remodal-target="settings"]');
@@ -558,7 +555,7 @@ var Mathulator = (function(window, document) {
 		elements.closeSidebar.addEventListener('click', onCloseSidebarClick);
 		elements.clearVariables.addEventListener('click', clearVariables);
 		
-		elements.advancedMode.addEventListener('click', advancedMode);
+		elements.basicMode.addEventListener('click', basicMode);
 
 		elements.input.addEventListener('keyup', onInputKeyup);
 		elements.saveButton.addEventListener('click', onFormSubmit);
@@ -574,6 +571,8 @@ var Mathulator = (function(window, document) {
 	cacheElements();
 	setFixedListeners();
 	getFromLocalStorage();
+	
+	elements.history.scrollTop = elements.history.scrollHeight;
 
 	return {
 		ep: ep
