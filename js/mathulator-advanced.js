@@ -284,10 +284,10 @@ var Mathulator = (function(window, document) {
 			return;
 		}
 
-		result = ep.parse(expression);
+		//result = ep.parse(expression);
 
 		try {
-			//result = ep.parse(expression);
+			result = ep.parse(expression);
 			elements.input.value = result;
 			
 			addHistoryEntry(expression, result);
