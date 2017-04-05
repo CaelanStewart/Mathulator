@@ -445,6 +445,10 @@ ExpressionParser.prototype.parse = function(expression) {
 			value = tokens[iter][1];
 		}
 	}
+	
+	if(value === null) {
+		return value;
+	}
 
 	return this.settings.sciNotation ? value : value.toFixed();
 };

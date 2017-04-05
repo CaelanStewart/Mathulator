@@ -279,11 +279,15 @@ var Mathulator = (function(window, document) {
 	function evaluate() {
 		var expression = elements.input.value,
 			result;
+			
+		if(!expression.trim().length) {
+			return;
+		}
 
-		//result = ep.parse(expression);
+		result = ep.parse(expression);
 
 		try {
-			result = ep.parse(expression);
+			//result = ep.parse(expression);
 			elements.input.value = result;
 			
 			addHistoryEntry(expression, result);

@@ -285,6 +285,10 @@ var Mathulator = (function(window, document) {
 	function evaluate() {
 		var expression = elements.input.value,
 			result;
+			
+		if(!expression.trim().length) {
+			return;
+		}
 
 		//result = ep.parse(expression);
 
