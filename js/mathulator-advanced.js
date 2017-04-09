@@ -407,6 +407,17 @@ var Mathulator = (function(window, document) {
 					!argList || typeof argList !== 'object' || Object.prototype.toString.call(argList) !== '[object Array]' ||
 					!exprTkns || typeof exprTkns !== 'object' || Object.prototype.toString.call(exprTkns) !== '[object Array]'
 				) continue;
+					
+				let exprTknsLen = exprTkns.length,
+					index;
+					
+				for(index = 0; index < exprTknsLen; ++index) {
+					let tkn = exprTkns[index];
+					
+					if(tkn[0] === 'number') {
+						tkn[1] = new Decimal(tkn[1]);
+					}	
+				}
 
 				addMacroEntry(name, argList);
 				ep.setMacro(name, argList, exprTkns, false);
