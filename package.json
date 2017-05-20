@@ -1,20 +1,24 @@
 {
   "name": "mathulator",
   "productName": "Mathulator",
-  "version": "1.8.0",
-  "description": "A handy expression evalutator (basically a geeky calculator)",
+  "version": "1.8.1",
+  "description": "A handy expression evalutator with support for arbitrary precision",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
+  "repository": "https://github.com/CaelanStewart/Mathulator",
+  "keywords": [
+    "Mathulator",
+    "arbitrary precision",
+    "calculator",
+    "scientific calculator"
+  ],
   "author": "Caelan Stewart",
   "license": "GPL-3.0",
-  "devDependencies": {
-    "electron": "^1.3.4",
-    "decimal.js": "6.0.0"
-  },
-  "bundledDependencies": {
-    "electron": "^1.3.4",
-    "decimal.js": "6.0.0"
+  "devDependencies": {},
+  "dependencies": {
+    "decimal.js": "^7.2.1",
+    "electron": "^1.6.8"
   }
 }
