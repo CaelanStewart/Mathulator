@@ -18,7 +18,7 @@
   "license": "GPL-3.0",
   "devDependencies": {},
   "dependencies": {
-    "decimal.js": "^7.2.1",
-    "electron": "^1.6.8"
+    "decimal.js": "^7.2.*",
+    "electron": "^1.7.*"
   }
 }
