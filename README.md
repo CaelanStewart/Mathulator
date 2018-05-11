@@ -16,7 +16,7 @@ Mathulator supports a wide range of math functions out of the box, take a look a
 
 ## Install (cli)
 
-### Step 1: Install Node (use Node 6, electron doesn't like Node 7).
+### Step 1: Install Node and NPM
 See: https://nodejs.org/en/download/
 
 ### Step 2: Clone
